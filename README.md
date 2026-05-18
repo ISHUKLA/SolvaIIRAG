@@ -1,4 +1,4 @@
-# Solvabilite II RAG
+# SolvaIIRAG
 
 Application Streamlit pour interroger un corpus Solvabilite II avec un moteur RAG.
 
