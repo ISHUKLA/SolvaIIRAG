@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.DS_Store
+.env
+.streamlit/secrets.toml
+audit_log.jsonl
+.ipynb_checkpoints/
+rag3_index/chroma/

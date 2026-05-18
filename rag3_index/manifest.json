@@ -1,0 +1,123 @@
+{
+  "embedding_model": "intfloat/multilingual-e5-large",
+  "chunking_version": "article-aware-v2",
+  "article_max_chars": 7000,
+  "default_chunk_max_chars": 2400,
+  "files": [
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/ACPR_Exigences_Qualite_Donnees_SolvabiliteII_2025_FR.pdf",
+      "size": 329874,
+      "mtime_ns": 1779107721451222746
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/ACPR_Modalites_Calcul_Ratios_Prudentiels_SolvabiliteII_2025_FR.pdf",
+      "size": 763917,
+      "mtime_ns": 1779107722319019808
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/ACPR_Note_Couverture_SolvabiliteII_2025_FR.pdf",
+      "size": 186389,
+      "mtime_ns": 1779107722093415652
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/ACPR_Notice_SolvabiliteII_SFCR_RSR_2025_FR.pdf",
+      "size": 755081,
+      "mtime_ns": 1779107720640209011
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/ACPR_Notice_SolvabiliteII_Systeme_Gouvernance_2025_FR.pdf",
+      "size": 405305,
+      "mtime_ns": 1779107722482630053
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/BNB_NBB_2016_31_governance_clean_EN.pdf",
+      "size": 1531000,
+      "mtime_ns": 1778777428291448637
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/BNB_NBB_2025_06_Valorisation_Prets_Hypothecaires_SolvencyII_FR.pdf",
+      "size": 984896,
+      "mtime_ns": 1779107895000137073
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/CELEX_32009L0138_FR_TXT.pdf",
+      "size": 3835771,
+      "mtime_ns": 1778777428288958700
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/Commission_Delegated_Regulation_EU_2015_35_EIOPA_rulebook_export.pdf",
+      "size": 1030368,
+      "mtime_ns": 1778777428276342730
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_Final_Report_Market_and_Counterparty_Risk_Exposures_2026_EN.pdf",
+      "size": 283495,
+      "mtime_ns": 1779107718631522934
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_Final_Report_Undertaking_Specific_Parameters_2025_EN.pdf",
+      "size": 306026,
+      "mtime_ns": 1779107718922297002
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_Guidelines_Market_and_Counterparty_Risk_Exposures_2026_EN.pdf",
+      "size": 188720,
+      "mtime_ns": 1779107849353471746
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_Guidelines_System_of_Governance_FR.pdf",
+      "size": 276766,
+      "mtime_ns": 1779107718355080478
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_Guidelines_Undertaking_Specific_Parameters_2025_EN.pdf",
+      "size": 224202,
+      "mtime_ns": 1779107849652421739
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_Guidelines_on_Own_Risk_and_Solvency_Assessment.pdf",
+      "size": 151708,
+      "mtime_ns": 1778777428282050961
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_Guidelines_on_Valuation_of_Technical_Provisions.pdf",
+      "size": 449020,
+      "mtime_ns": 1778777428300049328
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_Opinion_2020_Review_Solvency_II_EN.pdf",
+      "size": 1908907,
+      "mtime_ns": 1779107719213717433
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_QA_1514_SolvencyII_reporting_retention.html",
+      "size": 84330,
+      "mtime_ns": 1778777428296563237
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_QA_1665_SolvencyII_reinsurance_equivalence.html",
+      "size": 87523,
+      "mtime_ns": 1778777428294730094
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_QA_2442_SolvencyII_counterparty_risk_premiums.html",
+      "size": 84791,
+      "mtime_ns": 1778777428278803094
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_QA_3124_SolvencyII_SCR_covered_bonds.html",
+      "size": 85220,
+      "mtime_ns": 1778777428297685123
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_QA_345_SolvencyII_group_solvency.html",
+      "size": 85616,
+      "mtime_ns": 1778777428298575303
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_SolvencyII_overview_and_QA_entrypoint.html",
+      "size": 98389,
+      "mtime_ns": 1778777428280096641
+    }
+  ]
+}

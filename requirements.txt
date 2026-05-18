@@ -1,0 +1,12 @@
+streamlit
+pandas
+pypdf
+pymupdf
+python-docx
+beautifulsoup4
+lxml
+rank-bm25
+pydantic
+chromadb
+sentence-transformers
+langchain-groq
