@@ -283,7 +283,7 @@ except ModuleNotFoundError:
 # Constants
 # ---------------------------------------------------------------------------
 MAX_QUESTION_LENGTH = 1_000
-DEFAULT_DOCS_DIR = Path(os.environ.get("SOLVENCY_DOCS_DIR", PROJECT_DIR / "Directive"))
+DOCS_DIR = PROJECT_DIR / "Directive"
 
 SUGGESTED_QUESTIONS = [
     "Best Estimate - définition ?",
@@ -465,7 +465,6 @@ def _init_state() -> None:
         "runtime_ready": False,
         "runtime_error": None,
         "question_input": "",
-        "docs_dir": str(DEFAULT_DOCS_DIR),
     }
     for key, value in defaults.items():
         if key not in st.session_state:
@@ -473,6 +472,25 @@ def _init_state() -> None:
 
 
 _init_state()
+
+if not _RUNTIME_AVAILABLE:
+    st.error(
+        "**Module manquant** : `solvency_notebook_runtime` n'est pas trouvé. "
+        "Cette app cherche le module dans le dossier du projet."
+    )
+    st.stop()
+
+if not st.session_state.runtime_ready:
+    with st.spinner("Chargement de l'index réglementaire..."):
+        try:
+            get_runtime()
+            st.session_state.runtime_ready = True
+            st.session_state.runtime_error = None
+            logger.info("Runtime loaded automatically.")
+        except Exception as exc:
+            st.session_state.runtime_ready = False
+            st.session_state.runtime_error = f"{type(exc).__name__}: {exc}"
+            logger.exception("Automatic runtime init failed.")
 
 # ---------------------------------------------------------------------------
 # Sidebar
@@ -498,20 +516,13 @@ with st.sidebar:
     if groq_key:
         os.environ["GROQ_API_KEY"] = groq_key.strip()
 
-    st.markdown('<p class="sidebar-label">Dossier Directive</p>', unsafe_allow_html=True)
-    docs_dir_str = st.text_input(
-        "Dossier source",
-        label_visibility="collapsed",
-        key="docs_dir",
-        placeholder="/chemin/vers/directive",
-    )
-    docs_dir = Path(docs_dir_str)
-
+    st.markdown('<p class="sidebar-label">Corpus embarqué</p>', unsafe_allow_html=True)
+    docs_dir = DOCS_DIR
     if docs_dir.exists():
-        n_docs = len(list(docs_dir.glob("*")))
-        st.caption(f"{n_docs} fichier(s) détecté(s)")
+        n_docs = len([path for path in docs_dir.glob("*") if path.is_file()])
+        st.caption(f"Directive/ · {n_docs} fichier(s) détecté(s)")
     else:
-        st.warning("Dossier introuvable.")
+        st.error("Corpus Directive/ introuvable dans le repository.")
 
     st.markdown('<p class="sidebar-label">Paramètres</p>', unsafe_allow_html=True)
     mode = st.selectbox("Mode de retrieval", ["BM25", "Hybride"], index=0)
@@ -522,27 +533,6 @@ with st.sidebar:
         help="Disponible en mode Hybride, mais plus lent.",
     )
     show_sources = st.toggle("Afficher les sources", value=True)
-
-    st.markdown("<br>", unsafe_allow_html=True)
-    if st.button("⚡ Initialiser le moteur", use_container_width=True):
-        with st.spinner("Chargement du moteur RAG... premier lancement parfois long."):
-            try:
-                if groq_key.strip():
-                    ok, message = validate_groq_connection(groq_key.strip())
-                    if not ok:
-                        st.session_state.runtime_ready = False
-                        st.session_state.runtime_error = message
-                        logger.error("Groq validation failed: %s", message)
-                        st.stop()
-                    logger.info("Groq validation: %s", message)
-                get_runtime()
-                st.session_state.runtime_ready = True
-                st.session_state.runtime_error = None
-                logger.info("Runtime loaded.")
-            except Exception as exc:
-                st.session_state.runtime_ready = False
-                st.session_state.runtime_error = f"{type(exc).__name__}: {exc}"
-                logger.exception("Runtime init failed.")
 
     st.markdown("<br>", unsafe_allow_html=True)
     if st.session_state.runtime_ready:
@@ -599,13 +589,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-if not _RUNTIME_AVAILABLE:
-    st.error(
-        "**Module manquant** : `solvency_notebook_runtime` n'est pas trouvé. "
-        "Vérifie qu'il existe bien dans le dossier du projet."
-    )
-    st.stop()
-
 if not groq_key.strip():
     st.info("Mode sans API : l'app répond avec les passages les plus pertinents et leurs citations.")
 else:
@@ -653,7 +636,9 @@ with col_info:
 
 if send:
     if not docs_dir.exists():
-        st.warning("Le dossier source est introuvable. Vérifie le chemin dans la barre latérale.")
+        st.error("Corpus Directive/ introuvable dans le repository. Vérifie le déploiement.")
+    elif st.session_state.runtime_error:
+        st.error(f"Index réglementaire indisponible : {st.session_state.runtime_error}")
     else:
         spinner_text = "Recherche des sources et génération LLM..." if groq_key.strip() else "Recherche des sources..."
         with st.spinner(spinner_text):
