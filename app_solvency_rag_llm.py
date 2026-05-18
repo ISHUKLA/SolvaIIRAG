@@ -481,7 +481,11 @@ if not _RUNTIME_AVAILABLE:
     st.stop()
 
 if not st.session_state.runtime_ready:
+<<<<<<< HEAD
     with st.spinner("Chargement de l'index réglementaire..."):
+=======
+    with st.spinner("⏳ Chargement de l'index Solvabilité II..."):
+>>>>>>> f6fb27c (Fix public Streamlit startup flow)
         try:
             get_runtime()
             st.session_state.runtime_ready = True
@@ -490,6 +494,10 @@ if not st.session_state.runtime_ready:
         except Exception as exc:
             st.session_state.runtime_ready = False
             st.session_state.runtime_error = f"{type(exc).__name__}: {exc}"
+<<<<<<< HEAD
+=======
+            st.error(f"Erreur : {exc}")
+>>>>>>> f6fb27c (Fix public Streamlit startup flow)
             logger.exception("Automatic runtime init failed.")
 
 # ---------------------------------------------------------------------------
