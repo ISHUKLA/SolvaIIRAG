@@ -9,6 +9,7 @@ NOTEBOOK_PATH = Path(__file__).with_name("RAG3_SolvencyII_improved.ipynb")
 KEEP_MARKERS = [
     "from __future__ import annotations",
     "DOCS_DIR = Path(",
+    "PROJECT_DIR =",
     "@dataclass",
     "def infer_metadata(",
     "SECTION_RE = re.compile(",
@@ -107,6 +108,7 @@ def load_runtime() -> dict:
     os.chdir(NOTEBOOK_PATH.parent)
     nb = json.loads(NOTEBOOK_PATH.read_text(encoding="utf-8"))
     env: dict[str, object] = {"__name__": "__main__"}
+    _make_paths_portable(env)
 
     for idx, cell in enumerate(nb.get("cells", [])):
         if cell.get("cell_type") != "code":
