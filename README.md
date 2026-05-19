@@ -8,7 +8,7 @@ SolvaIIRAG is a Retrieval-Augmented Generation (RAG) application built for insur
 
 The project is designed as a public portfolio application: a visitor can open the app, choose a suggested question, and receive sourced results without configuring a local folder, uploading files, or providing an API key.
 
-![SolvaIIRAG app preview](assets/app-preview.svg)
+![SolvaIIRAG app preview](assets/app-preview.png)
 
 ## Executive Summary
 
