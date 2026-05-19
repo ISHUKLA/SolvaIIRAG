@@ -141,6 +141,45 @@ flowchart LR
 - **Embedded corpus** so the app is usable by external reviewers without access to the developer's local machine.
 - **Graceful LLM fallback** so the product still works as a cited search assistant without paid API access.
 
+## Retrieval Evaluation Summary
+
+The retrieval component was evaluated on **127 Solvency II questions** covering Pillar 1, Pillar 2, Pillar 3, group supervision, investments, reinsurance, internal models, prudential supervision and transversal topics.
+
+For each question, the retriever returned the top-4 most relevant chunks. A retrieval was counted as successful when at least 50% of the expected reference terms were found in one of the retrieved chunks.
+
+### Global Results
+
+| Metric | Value |
+|---|---:|
+| Questions evaluated | 127 |
+| Hit@4 | 0.858 |
+| Mean MRR | 0.749 |
+| Mean first hit rank | 1.35 |
+| Mean term coverage | 0.636 |
+| Failed questions | 18 |
+
+### Strongest Categories
+
+| Category | Questions | Hit rate | Mean MRR | Mean first hit rank | Mean coverage |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Modele interne | 9 | 1.0 | 1.0 | 1.0 | 0.852 |
+| Pilier 1 - Fonds propres | 7 | 1.0 | 1.0 | 1.0 | 0.762 |
+| Reassurance | 5 | 1.0 | 1.0 | 1.0 | 0.800 |
+
+### Weakest Categories
+
+| Category | Questions | Hit rate | Mean MRR | Mean first hit rank | Mean coverage |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Pilier 3 - QRT | 6 | 0.167 | 0.167 | 1.0 | 0.083 |
+| Proportionnalite | 3 | 0.667 | 0.500 | 1.5 | 0.500 |
+| Transversal | 6 | 0.667 | 0.583 | 1.25 | 0.417 |
+
+### Interpretation
+
+The retrieval pipeline achieved a Hit@4 of **85.8%**, meaning that the expected source content was retrieved within the top-4 chunks for most evaluation questions. The mean first hit rank of **1.35** indicates that successful matches are generally ranked very high, often in the first retrieved positions.
+
+Remaining failures are useful for improving chunking, query formulation, synonym handling, and coverage of regulatory terminology.
+
 ## Run Locally
 
 ```bash
