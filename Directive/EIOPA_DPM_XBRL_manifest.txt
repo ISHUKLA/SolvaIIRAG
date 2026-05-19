@@ -1,0 +1,53 @@
+Source page: https://www.eiopa.europa.eu/tools-and-data/supervisory-reporting-dpm-and-xbrl_en
+Selection: page-level DPM/XBRL documents and current Solvency II 2.8.2 Hotfix production artefacts.
+
+Decision of the Board of Supervisors on collection of information by EIOPA.pdf
+  https://www.eiopa.europa.eu/document/download/96218705-55c7-44c9-92b8-4e86c806a5b3_en?filename=Decision%20of%20the%20Board%20of%20Supervisors%20on%20collection%20of%20information%20by%20EIOPA.pdf
+Decision of the Board of Supervisors on the reporting of the pan-European Personal Pension Product key information document.pdf
+  https://www.eiopa.europa.eu/document/download/47809dc2-fd20-4748-8621-41b680fd6092_en?filename=Decision%20of%20the%20Board%20of%20Supervisors%20on%20the%20reporting%20of%20the%20pan-European%20Personal%20Pension%20Product%20key%20information%20document.pdf
+EIOPA-BoS-24-411_Governance of taxonomy releases_public.pdf
+  https://www.eiopa.europa.eu/document/download/3876b480-0cb5-4132-b6b1-c460e7ea0f5c_en?filename=EIOPA-BoS-24-411_Governance%20of%20taxonomy%20releases_public.pdf
+Eiopa_taxonomy_roadmap.xlsx
+  https://www.eiopa.europa.eu/document/download/1f49b6ff-0f27-4ce2-b6f1-89dc1fd61c20_en?filename=Eiopa_taxonomy_roadmap.xlsx
+EIOPA_List_of_Known_Issues_Published.xlsx
+  https://dev.eiopa.europa.eu/Taxonomy/Full/2.8.2/S2/EIOPA_List_of_Known_Issues_Published.xlsx
+EIOPA_XBRL_Filing_Rules.pdf
+  https://dev.eiopa.europa.eu/Taxonomy/Full/2.8.2/Common/EIOPA_XBRL_Filing_Rules.pdf
+val cmf.zip
+  https://www.eiopa.europa.eu/document/download/423c191c-9df5-47a8-8a96-21af9b495416_en?filename=val%20cmf.zip
+eiopa_dpm_and_taxonomy_license.pdf
+  https://www.eiopa.europa.eu/system/files/2019-09/eiopa_dpm_and_taxonomy_license.pdf
+EIOPA_SolvencyII_Release_Notes_2.8.2_Hotfix.pdf
+  https://dev.eiopa.europa.eu/Taxonomy/Full/2.8.2_hotfix/S2/EIOPA_SolvencyII_Release_Notes_2.8.2_Hotfix.pdf
+EIOPA_DPM_Dictionary_2.8.2_Hotfix.xlsx
+  https://dev.eiopa.europa.eu/Taxonomy/Full/2.8.2_hotfix/Common/EIOPA_DPM_Dictionary_2.8.2_Hotfix.xlsx
+EIOPA_Solvency_II_DPM_Annotated_Templates_2.8.2_Hotfix.xlsx
+  https://dev.eiopa.europa.eu/Taxonomy/Full/2.8.2_hotfix/S2/EIOPA_Solvency_II_DPM_Annotated_Templates_2.8.2_Hotfix.xlsx
+EIOPA_Solvency_II_DPM_Annotated_Templates_2.8.2_Hotfix_table_group_arrangement.xlsx
+  https://dev.eiopa.europa.eu/Taxonomy/Full/2.8.2_hotfix/S2/EIOPA_Solvency_II_DPM_Annotated_Templates_2.8.2_Hotfix_table_group_arrangement.xlsx
+EIOPA_Solvency_II_DPM_Annotated_Templates_2.8.2_Hotfix_legacy_format.xlsx
+  https://dev.eiopa.europa.eu/Taxonomy/Full/2.8.2_hotfix/S2/EIOPA_Solvency_II_DPM_Annotated_Templates_2.8.2_Hotfix_legacy_format.xlsx
+Change_log_between_EIOPA_SolvencyII_2.8.2_Hotfix_vs_2.8.2.xlsx
+  https://dev.eiopa.europa.eu/Taxonomy/Full/2.8.2_hotfix/S2/Change_log_between_EIOPA_SolvencyII_2.8.2_Hotfix_vs_2.8.2.xlsx
+Change_log_between_EIOPA_SolvencyII_2.8.2_Hotfix_vs_2.8.2_Hotfix_PWD.xlsx
+  https://dev.eiopa.europa.eu/Taxonomy/Full/2.8.2_hotfix/S2/Change_log_between_EIOPA_SolvencyII_2.8.2_Hotfix_vs_2.8.2_Hotfix_PWD.xlsx
+EIOPA_DPM_Documentation_2.8.2.pdf
+  https://dev.eiopa.europa.eu/Taxonomy/Full/2.8.2/Common/EIOPA_DPM_Documentation_2.8.2.pdf
+EIOPA_SolvencyII_Validations_2.8.2_Hotfix.xlsx
+  https://dev.eiopa.europa.eu/Taxonomy/Full/2.8.2_hotfix/S2/EIOPA_SolvencyII_Validations_2.8.2_Hotfix.xlsx
+EIOPA_Validations_Syntax.pdf
+  https://dev.eiopa.europa.eu/Taxonomy/Full/2.8.2_hotfix/Common/EIOPA_Validations_Syntax.pdf
+EIOPA_SolvencyII_XBRL_Taxonomy_2.8.2_Hotfix.zip
+  https://dev.eiopa.europa.eu/Taxonomy/Full/2.8.2_hotfix/S2/EIOPA_SolvencyII_XBRL_Taxonomy_2.8.2_Hotfix.zip
+EIOPA_XBRL_Taxonomy_Documentation_2.8.2.pdf
+  https://dev.eiopa.europa.eu/Taxonomy/Full/2.8.2/Common/EIOPA_XBRL_Taxonomy_Documentation_2.8.2.pdf
+EIOPA_SolvencyII_DPM_Database_2.8.2_Hotfix.zip
+  https://dev.eiopa.europa.eu/Taxonomy/Full/2.8.2_hotfix/S2/EIOPA_SolvencyII_DPM_Database_2.8.2_Hotfix.zip
+EIOPA_DPM_Database_Documentation.pdf
+  https://dev.eiopa.europa.eu/Taxonomy/Full/2.8.2/Common/EIOPA_DPM_Database_Documentation.pdf
+EIOPA_SolvencyII_Business_package_supporting_2.8.2.zip
+  https://dev.eiopa.europa.eu/Taxonomy/Full/2.8.2/S2/EIOPA_SolvencyII_Business_package_supporting_2.8.2.zip
+Technical_LOG_Solvency_II_2.8.0.zip
+  https://dev.eiopa.europa.eu/Taxonomy/Full/2.8.0/S2/Technical_LOG_Solvency_II_2.8.0.zip
+Unified dictionary NACE.xlsx
+  https://dev.eiopa.europa.eu/Taxonomy/Full/2.8.2_hotfix/S2/Unified%20dictionary%20NACE.xlsx
