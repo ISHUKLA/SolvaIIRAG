@@ -1,0 +1,24 @@
+Documents ORSA / EIRS Belgique-France-Europe fournis par l'utilisateur.
+
+NBB_2025_09_Circulaire_ORSA_page.html
+  https://www.nbb.be/fr/supervision-financiere-et-resolution/aspects-transversaux-et-internationaux/actualites-511
+NBB_2025_09_Circulaire_ORSA.pdf
+  https://www.nbb.be/doc/cp/fr/2025/20250625_nbb_2025_09.pdf
+NBB_2025_09_Annexe_ORSA.pdf
+  https://www.nbb.be/doc/cp/fr/2025/20250625_nbb_2025_09_annexe.pdf
+NBB_Circulaires_Communications_Assurance_page.html
+  https://www.nbb.be/fr/supervision-financiere/controle-prudentiel/domaines-de-controle/entreprises-dassurance-et-de-38
+ACPR_Pilier_2_EIRS_ORSA_page.html
+  https://acpr.banque-france.fr/fr/reglementation/focus-sur-la-reglementation/assurance/solvabilite-ii/pilier-2-levaluation-interne-des-risques-et-de-la-solvabilite
+ACPR_Notice_EIRS_ORSA_Solvabilite_II_2023.pdf
+  https://acpr.banque-france.fr/sites/default/files/media/2023/12/01/20231201_notice_eirs_s2.pdf
+ACPR_Solvabilite_II_page_generale.html
+  https://acpr.banque-france.fr/fr/reglementation/focus-sur-la-reglementation/assurance/solvabilite-ii
+ACPR_Notice_Systeme_Gouvernance_Solvabilite_II.pdf
+  https://acpr.banque-france.fr/sites/default/files/media/2020/08/07/3._notice-solvabilite2-systeme-gouvernance.pdf
+EIOPA_Guidelines_ORSA_page.html
+  https://www.eiopa.europa.eu/publications/guidelines-own-risk-solvency-assessment-orsa_en
+EIOPA_Guidelines_on_ORSA_EN.pdf
+  https://www.eiopa.europa.eu/system/files/2022-10/eiopa_guidelines_on_orsa_en.pdf
+EIOPA_QA_1350_ORSA_frequency_submission_deadline.html
+  https://www.eiopa.europa.eu/qa-regulation/questions-and-answers-database/1350_en
