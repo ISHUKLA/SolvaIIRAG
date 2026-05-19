@@ -1,0 +1,70 @@
+Source set: French EIOPA URLs provided by the user.
+Note: several EIOPA French pages expose English-labelled attachments or fallback pages.
+
+Saved pages:
+EIOPA_FR_Final_report_supervisory_reporting_public_disclosure_Solvency_II_page.html
+  https://www.eiopa.europa.eu/publications/final-report-supervisory-reporting-and-public-disclosure-requirements-under-solvency-ii_fr
+EIOPA_FR_Supervisory_reporting_DPM_XBRL_page.html
+  https://www.eiopa.europa.eu/tools-and-data/supervisory-reporting-dpm-and-xbrl_fr
+EIOPA_FR_Risk_free_interest_rate_term_structures_page.html
+  https://www.eiopa.europa.eu/tools-and-data/risk-free-interest-rate-term-structures_fr
+EIOPA_FR_Symmetric_adjustment_equity_capital_charge_page.html
+  https://www.eiopa.europa.eu/tools-and-data/symmetric-adjustment-equity-capital-charge_fr
+EIOPA_FR_Revised_guidelines_market_counterparty_risk_page.html
+  https://www.eiopa.europa.eu/publications/revised-guidelines-treatment-market-and-counterparty-risk-exposures-standard-formula_fr
+EIOPA_FR_SNCU_SNCG_technical_specifications_news_page.html
+  https://www.eiopa.europa.eu/eiopa-publishes-technical-specifications-small-and-non-complex-insurance-undertakings-and-groups-2026-04-07_fr
+EIOPA_FR_Shortening_13_guidelines_news_page.html
+  https://www.eiopa.europa.eu/eiopa-seeks-input-proposed-shortening-13-sets-guidelines-further-streamline-revised-solvency-ii-2026-04-15_fr
+EIOPA_FR_Insurance_risk_dashboard_page.html
+  https://www.eiopa.europa.eu/tools-and-data/insurance-risk-dashboard_fr
+EIOPA_EN_fallback_SNCU_SNCG_publication_page.html
+  https://www.eiopa.europa.eu/publications/technical-specification-calculation-criteria-small-and-non-complex-undertakings-sncus-and-groups_en
+EIOPA_EN_fallback_shortening_guidelines_consultation_page.html
+  https://www.eiopa.europa.eu/consultations/consultation-shortening-additional-guidelines-under-solvency-ii_en
+EIOPA_EN_fallback_insurance_risk_dashboard_April_2026.html
+  https://nexteuropa-multisites.s3.eu-west-1.amazonaws.com/www.eiopa.europa.eu/assets/insurance-risk-dashboard/EIOPA-BoS-26-170_2026-April-insurance-risk-dashboard.html
+
+Downloaded attachments:
+EIOPA-26-081 - Final report on supervisory reporting and public disclosure requirements under Solvency II.pdf
+  https://www.eiopa.europa.eu/document/download/7f1af01a-eb4e-4856-a5c5-c43bad02b754_en?filename=EIOPA-26-081%20-%20Final%20report%20on%20supervisory%20reporting%20and%20public%20disclosure%20requirements%20under%20Solvency%20II.pdf
+Annex V - Revised Guidelines on reporting for financial stability purposes.pdf
+  https://www.eiopa.europa.eu/document/download/d59bea26-bf75-4c7a-b7e2-204e0e93c140_en?filename=Annex%20V%20-%20Revised%20Guidelines%20on%20reporting%20for%20financial%20stability%20purposes.pdf
+Annex VI - Revised Guidelines on the supervision of branches of third-country insurance undertakings.pdf
+  https://www.eiopa.europa.eu/document/download/f8d384a6-a420-4525-ba8d-66e72d737afc_en?filename=Annex%20VI%20-%20Revised%20Guidelines%20on%20the%20supervision%20of%20branches%20of%20third-country%20insurance%20undertakings.pdf
+Annex VII - Reporting and disclosure package.zip
+  https://www.eiopa.europa.eu/document/download/efd8af5f-7881-4679-af28-ae59b1563aad_en?filename=Annex%20VII%20-%20Reporting%20and%20disclosure%20package.zip
+Decision of the Board of Supervisors on collection of information by EIOPA.pdf
+  https://www.eiopa.europa.eu/document/download/96218705-55c7-44c9-92b8-4e86c806a5b3_en?filename=Decision%20of%20the%20Board%20of%20Supervisors%20on%20collection%20of%20information%20by%20EIOPA.pdf&prefLang=fr
+Decision of the Board of Supervisors on the reporting of the pan-European Personal Pension Product key information document.pdf
+  https://www.eiopa.europa.eu/document/download/47809dc2-fd20-4748-8621-41b680fd6092_en?filename=Decision%20of%20the%20Board%20of%20Supervisors%20on%20the%20reporting%20of%20the%20pan-European%20Personal%20Pension%20Product%20key%20information%20document.pdf&prefLang=fr
+EIOPA-BoS-24-411_Governance of taxonomy releases_public.pdf
+  https://www.eiopa.europa.eu/document/download/3876b480-0cb5-4132-b6b1-c460e7ea0f5c_en?filename=EIOPA-BoS-24-411_Governance%20of%20taxonomy%20releases_public.pdf
+Eiopa_taxonomy_roadmap.xlsx
+  https://www.eiopa.europa.eu/document/download/1f49b6ff-0f27-4ce2-b6f1-89dc1fd61c20_en?filename=Eiopa_taxonomy_roadmap.xlsx
+EIOPA_List_of_Known_Issues_Published.xlsx
+  https://dev.eiopa.europa.eu/Taxonomy/Full/2.8.2/S2/EIOPA_List_of_Known_Issues_Published.xlsx
+EIOPA_XBRL_Filing_Rules.pdf
+  https://dev.eiopa.europa.eu/Taxonomy/Full/2.8.2/Common/EIOPA_XBRL_Filing_Rules.pdf
+val cmf.zip
+  https://www.eiopa.europa.eu/document/download/423c191c-9df5-47a8-8a96-21af9b495416_en?filename=val%20cmf.zip&prefLang=fr
+eiopa_dpm_and_taxonomy_license.pdf
+  https://www.eiopa.europa.eu/system/files/2019-09/eiopa_dpm_and_taxonomy_license.pdf
+EIOPA_RFR_20260430.zip
+  https://www.eiopa.europa.eu/document/download/f9534d5d-3774-4cb0-b906-dcb08b5b7cb9_en?filename=EIOPA_RFR_20260430.zip&prefLang=fr
+30-03-2026 - Report on the Calculation of the UFR for 2027.pdf
+  https://www.eiopa.europa.eu/document/download/b2bb2b0e-e371-4b94-9c8b-f83efde583f8_en?filename=30-03-2026%20-%20Report%20on%20the%20Calculation%20of%20the%20UFR%20for%202027.pdf&prefLang=fr
+EIOPA-BoS-25-599 - RFR Technical Documentation.pdf
+  https://www.eiopa.europa.eu/document/download/f7fca58f-4d24-4441-ac60-de562bf26d77_en?filename=EIOPA-BoS-25-599%20-%20RFR%20Technical%20Documentation.pdf&prefLang=fr
+EIOPA-BoS-25-598 - Updated_representative_portfolios_applicable_end_of_March_2026 - For Publication.xlsx
+  https://www.eiopa.europa.eu/document/download/e2240d9c-2fc7-49af-b07f-8affccc5fc76_en?filename=EIOPA-BoS-25-598%20-%20Updated_representative_portfolios_applicable_end_of_March_2026%20-%20For%20Publication.xlsx&prefLang=fr
+EIOPA_symmetric_adjustment_equity_capital_charge_April_2026.xlsx
+  https://www.eiopa.europa.eu/document/download/45773ef4-7d96-46a9-b73f-e9b6879984c7_en?filename=EIOPA_symmetric_adjustment_equity_capital_charge_April_2026.xlsx
+EIOPA-BoS-25-664_Final report on revised Guidelines on market and counterparty risk exposures.pdf
+  https://www.eiopa.europa.eu/document/download/af4674fc-10e6-4408-9bc3-d130232f5818_en?filename=EIOPA-BoS-25-664_Final%20report%20on%20revised%20Guidelines%20on%20market%20and%20counterparty%20risk%20exposures.pdf&prefLang=fr
+EIOPA-BoS-25-664_Guidelines on market and counterparty risk exposures.pdf
+  https://www.eiopa.europa.eu/document/download/5b68b6c5-a5db-4483-a785-76295c77e635_en?filename=EIOPA-BoS-25-664_Guidelines%20on%20market%20and%20counterparty%20risk%20exposures.pdf&prefLang=fr
+EIOPA-BoS-26-102 - Technical specifications on SNCU.pdf
+  https://www.eiopa.europa.eu/document/download/9b9f1a43-59b4-43e0-b711-9a8d4312a0ff_en?filename=EIOPA-BoS-26-102%20-%20Technical%20specifications%20on%20SNCU.pdf
+Consultation Paper on the shortening of additional Guidelines under Solvency II.pdf
+  https://www.eiopa.europa.eu/document/download/4ddd4bac-3862-41d7-aeb3-e7b009962a57_en?filename=Consultation%20Paper%20on%20the%20shortening%20of%20additional%20Guidelines%20under%20Solvency%20II.pdf
