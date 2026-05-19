@@ -711,6 +711,15 @@ if st.session_state.history:
             f'{citations_html}{_safe_html(item["answer"])}</div>',
             unsafe_allow_html=True,
         )
+        feedback_key = len(st.session_state.history) - index
+        col_useful, col_not_useful, _ = st.columns([0.35, 0.35, 5.3])
+        with col_useful:
+            if st.button("👍", key=f"useful_{feedback_key}", help="Utile"):
+                st.success("Merci pour votre feedback !")
+        with col_not_useful:
+            if st.button("👎", key=f"not_useful_{feedback_key}", help="Pas utile"):
+                st.info("Merci, nous allons améliorer !")
+
         if show_sources and item.get("chunks"):
             with st.expander(f"📄 Voir les extraits complets ({len(item['chunks'])} source(s))", expanded=False):
                 render_chunks(item["chunks"], retrieval_scores)
