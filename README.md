@@ -152,31 +152,31 @@ For each question, the retriever returned the top-4 most relevant chunks. A retr
 | Metric | Value |
 |---|---:|
 | Questions evaluated | 127 |
-| Hit@4 | 0.858 |
-| Mean MRR | 0.749 |
-| Mean first hit rank | 1.35 |
-| Mean term coverage | 0.636 |
-| Failed questions | 18 |
+| Hit@4 | 0.890 |
+| Mean MRR | 0.829 |
+| Mean first hit rank | 1.19 |
+| Mean term coverage | 0.682 |
+| Failed questions | 14 |
 
 ### Strongest Categories
 
 | Category | Questions | Hit rate | Mean MRR | Mean first hit rank | Mean coverage |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Modele interne | 9 | 1.0 | 1.0 | 1.0 | 0.852 |
 | Pilier 1 - Fonds propres | 7 | 1.0 | 1.0 | 1.0 | 0.762 |
+| Proportionnalite | 3 | 1.0 | 1.0 | 1.0 | 0.667 |
 | Reassurance | 5 | 1.0 | 1.0 | 1.0 | 0.800 |
 
 ### Weakest Categories
 
 | Category | Questions | Hit rate | Mean MRR | Mean first hit rank | Mean coverage |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Pilier 3 - QRT | 6 | 0.167 | 0.167 | 1.0 | 0.083 |
-| Proportionnalite | 3 | 0.667 | 0.500 | 1.5 | 0.500 |
 | Transversal | 6 | 0.667 | 0.583 | 1.25 | 0.417 |
+| Risques specifiques | 6 | 0.667 | 0.667 | 1.0 | 0.583 |
+| Pilier 2 - ORSA | 4 | 0.750 | 0.750 | 1.0 | 0.375 |
 
 ### Interpretation
 
-The retrieval pipeline achieved a Hit@4 of **85.8%**, meaning that the expected source content was retrieved within the top-4 chunks for most evaluation questions. The mean first hit rank of **1.35** indicates that successful matches are generally ranked very high, often in the first retrieved positions.
+The retrieval pipeline achieved a Hit@4 of **89.0%**, meaning that the expected source content was retrieved within the top-4 chunks for most evaluation questions. The mean first hit rank of **1.19** indicates that successful matches are generally ranked very high, often in the first retrieved positions.
 
 Remaining failures are useful for improving chunking, query formulation, synonym handling, and coverage of regulatory terminology.
 
