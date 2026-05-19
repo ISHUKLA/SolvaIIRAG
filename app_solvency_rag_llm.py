@@ -106,6 +106,25 @@ st.markdown(
         margin: 3px 0 0;
     }
 
+    .legal-disclaimer {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        background: #241f12;
+        border: 1px solid rgba(201,168,76,.65);
+        border-left: 4px solid var(--accent);
+        border-radius: var(--radius-sm);
+        color: var(--text);
+        padding: 11px 14px;
+        margin: 0 0 22px;
+        font-size: 0.84rem;
+        line-height: 1.45;
+        box-shadow: 0 10px 24px rgba(0,0,0,.22);
+    }
+    .legal-disclaimer strong {
+        color: var(--accent);
+    }
+
     .status-pill {
         display: inline-flex;
         align-items: center;
@@ -585,6 +604,18 @@ st.markdown(
             <h1>Solvabilité II <span class="badge">RAG</span></h1>
             <p class="sub">Interrogez la directive avec citations. La génération LLM via Groq est optionnelle.</p>
         </div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
+st.markdown(
+    """
+    <div class="legal-disclaimer">
+        <strong>Avertissement légal.</strong>
+        SolvA2RAG est un outil d'aide à la recherche documentaire et à la synthèse.
+        Il ne remplace ni la lecture des textes officiels, ni la vérification des versions applicables,
+        ni l'analyse d'un professionnel qualifié.
     </div>
     """,
     unsafe_allow_html=True,
