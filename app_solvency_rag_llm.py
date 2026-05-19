@@ -712,13 +712,17 @@ if st.session_state.history:
             unsafe_allow_html=True,
         )
         feedback_key = len(st.session_state.history) - index
-        col_useful, col_not_useful, _ = st.columns([0.35, 0.35, 5.3])
+        feedback_state_key = f"feedback_message_{feedback_key}"
+        col_useful, col_not_useful, col_feedback = st.columns([0.35, 0.35, 5.3])
         with col_useful:
             if st.button("👍", key=f"useful_{feedback_key}", help="Utile"):
-                st.success("Merci pour votre feedback !")
+                st.session_state[feedback_state_key] = "Merci de votre retour"
         with col_not_useful:
             if st.button("👎", key=f"not_useful_{feedback_key}", help="Pas utile"):
-                st.info("Merci, nous allons améliorer !")
+                st.session_state[feedback_state_key] = "Nous allons améliorer"
+        with col_feedback:
+            if st.session_state.get(feedback_state_key):
+                st.caption(st.session_state[feedback_state_key])
 
         if show_sources and item.get("chunks"):
             with st.expander(f"📄 Voir les extraits complets ({len(item['chunks'])} source(s))", expanded=False):
