@@ -536,12 +536,30 @@ with st.sidebar:
         st.error("Corpus Directive/ introuvable dans le repository.")
 
     st.markdown('<p class="sidebar-label">Paramètres</p>', unsafe_allow_html=True)
-    mode = st.selectbox("Mode de retrieval", ["BM25", "Hybride"], index=0)
+    search_mode_labels = {
+        "Hybride": "Recherche intelligente · recommandée",
+        "BM25": "Mots exacts · références précises",
+    }
+    mode = st.selectbox(
+        "Mode de recherche",
+        ["Hybride", "BM25"],
+        index=0,
+        format_func=lambda value: search_mode_labels[value],
+        help=(
+            "La recherche intelligente combine les mots exacts et le sens de la question. "
+            "Les mots exacts sont utiles pour retrouver un article, un code, un acronyme "
+            "ou une expression précise."
+        ),
+    )
+    if mode == "Hybride":
+        st.caption("Recommandé : recherche les mots exacts et les idées proches.")
+    else:
+        st.caption("Utile pour un article, un code, un acronyme ou une phrase exacte.")
     use_reranker = st.toggle(
         "Utiliser le reranker",
         value=False,
         disabled=(mode != "Hybride"),
-        help="Disponible en mode Hybride, mais plus lent.",
+        help="Disponible en recherche intelligente, mais plus lent.",
     )
     show_sources = st.toggle("Afficher les sources", value=True)
 
