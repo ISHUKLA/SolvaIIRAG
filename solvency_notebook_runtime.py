@@ -10,6 +10,7 @@ import hashlib
 import json
 import os
 import re
+import unicodedata
 from datetime import datetime, timezone
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -853,6 +854,80 @@ SOLVENCY_II_REVIEW_SOURCE_TERMS = {
     "eli/dir/2025/2",
 }
 
+SOLVENCY_SCOPE_TERMS = {
+    "solvabilite ii",
+    "solvency ii",
+    "s2",
+    "assurance",
+    "assureur",
+    "assureurs",
+    "reassurance",
+    "prudentiel",
+    "prudentielle",
+    "actuariel",
+    "actuaire",
+    "provisions techniques",
+    "provision technique",
+    "best estimate",
+    "meilleure estimation",
+    "risk margin",
+    "marge de risque",
+    "fonds propres",
+    "capital de solvabilite requis",
+    "minimum de capital requis",
+    "capital requis",
+    "scr",
+    "mcr",
+    "orsa",
+    "ersa",
+    "sfcr",
+    "rsr",
+    "qrt",
+    "gouvernance",
+    "formule standard",
+    "modele interne",
+    "courbe des taux",
+    "risque climatique",
+    "risques climatiques",
+    "changement climatique",
+    "durabilite",
+    "sustainability",
+    "volatility adjustment",
+    "matching adjustment",
+    "eiopa",
+    "acpr",
+    "bnb",
+    "nbb",
+    "reglement delegue",
+    "delegated regulation",
+}
+
+SOLVENCY_SCOPE_WEAK_TERMS = {
+    "directive",
+    "article",
+    "reglement",
+    "capital",
+    "risque",
+    "provision",
+    "controle",
+    "supervision",
+    "reporting",
+}
+
+OUT_OF_SCOPE_ANSWER = (
+    "Hors contexte : la question ne semble pas relever du périmètre Solvabilité II "
+    "ou du corpus réglementaire chargé. Reformulez avec un sujet Solvabilité II "
+    "(par exemple SCR, MCR, ORSA, provisions techniques, gouvernance, SFCR/RSR, "
+    "Directive, Actes délégués ou EIOPA) pour obtenir une réponse sourcée."
+)
+
+UNCERTAIN_SCOPE_ANSWER = (
+    "Périmètre incertain : la question contient un terme trop général, mais pas assez "
+    "d'indices pour confirmer qu'elle concerne Solvabilité II. Reformulez en mentionnant "
+    "le cadre ou l'objet réglementaire visé, par exemple SCR, MCR, ORSA, provisions "
+    "techniques, gouvernance, reporting, Directive, Actes délégués ou EIOPA."
+)
+
 
 def expand_query(query: str) -> str:
     expanded = [query]
@@ -871,6 +946,47 @@ def is_solvency_ii_review_query(query: str) -> bool:
 def is_solvency_ii_review_chunk(chunk: Chunk) -> bool:
     blob = f"{chunk.source_name} {chunk.source_path} {chunk.version or ''} {chunk.text[:500]}".lower()
     return any(term in blob for term in SOLVENCY_II_REVIEW_SOURCE_TERMS)
+
+
+def normalize_for_scope(text: str) -> str:
+    decomposed = unicodedata.normalize("NFKD", text.lower())
+    return "".join(char for char in decomposed if not unicodedata.combining(char))
+
+
+def evaluate_scope(question: str, chunks: Optional[list[Chunk]] = None) -> dict:
+    normalized = normalize_for_scope(question)
+    matched_terms = sorted(term for term in SOLVENCY_SCOPE_TERMS if term in normalized)
+    weak_terms = sorted(term for term in SOLVENCY_SCOPE_WEAK_TERMS if term in normalized)
+    article_match = bool(re.search(r"\b(?:art\.?|article)\s*\d+[a-z]?\b", normalized))
+    review_match = is_solvency_ii_review_query(normalized)
+
+    retrieval_evidence = []
+    for chunk in chunks or []:
+        blob = normalize_for_scope(
+            f"{chunk.source_name} {chunk.document_type or ''} {chunk.version or ''} {chunk.text[:700]}"
+        )
+        if any(term in blob for term in SOLVENCY_SCOPE_TERMS) or "solvabilite" in blob or "solvency" in blob:
+            retrieval_evidence.append(chunk.chunk_id)
+
+    if matched_terms or article_match or review_match:
+        status = "in_scope"
+        reason = "matched_question_terms"
+    elif len(weak_terms) >= 2 and retrieval_evidence:
+        status = "uncertain"
+        reason = "weak_terms_with_retrieval_evidence"
+    else:
+        status = "out_of_scope"
+        reason = "no_scope_signal"
+
+    return {
+        "scope_status": status,
+        "scope_reason": reason,
+        "matched_terms": matched_terms,
+        "weak_terms": weak_terms,
+        "article_match": article_match,
+        "review_match": review_match,
+        "retrieval_evidence_count": len(retrieval_evidence),
+    }
 
 
 def tokenize_for_bm25(text: str) -> list[str]:
@@ -1099,13 +1215,16 @@ def audit_log_query(
     use_llm: bool = True,
     model: str = "llama-3.3-70b-versatile",
     answer: str = "",
+    scope_diagnostic: Optional[dict] = None,
 ) -> None:
     retrieval_scores = retrieval_scores or {}
+    scope_diagnostic = scope_diagnostic or {"scope_status": "in_scope"}
     event = {
         "ts": datetime.now(timezone.utc).isoformat(),
         "user": os.environ.get("USER") or os.environ.get("USERNAME") or "unknown",
         "question": question,
         "mode": mode,
+        "scope": scope_diagnostic,
         "llm_requested": use_llm,
         "model": model if use_llm else None,
         "answer_preview": normalize_whitespace(answer)[:1000],
@@ -1244,12 +1363,38 @@ def ask(
     audience: str = "expert",
     history: Optional[list[dict]] = None,
 ) -> dict:
+    model = "llama-3.3-70b-versatile"
     retriever = SolvencyRetriever(use_reranker=use_reranker)
     chunks = retriever.retrieve(question)
+    scope_diagnostic = evaluate_scope(question, chunks)
 
     print("Sources retrouvées :")
     for index, chunk in enumerate(chunks, start=1):
         print(format_citation(chunk, index))
+
+    if scope_diagnostic["scope_status"] in {"out_of_scope", "uncertain"}:
+        answer = OUT_OF_SCOPE_ANSWER
+        chunks_for_response = []
+        if scope_diagnostic["scope_status"] == "uncertain":
+            answer = UNCERTAIN_SCOPE_ANSWER
+            chunks_for_response = chunks
+        audit_log_query(
+            question=question,
+            chunks=chunks_for_response,
+            retrieval_scores=retriever.last_scores if chunks_for_response else {},
+            mode="hybrid",
+            use_llm=False,
+            model=model,
+            answer=answer,
+            scope_diagnostic=scope_diagnostic,
+        )
+        return {
+            "question": question,
+            "answer": answer,
+            "chunks": chunks_for_response,
+            "retrieval_scores": retriever.last_scores if chunks_for_response else {},
+            **scope_diagnostic,
+        }
 
     if audience == "vulgarise":
         extra = """
@@ -1260,8 +1405,6 @@ mets-les entre parenthèses en fin de phrase, pas en avant.
 """.strip()
     else:
         extra = ""
-
-    model = "llama-3.3-70b-versatile"
 
     if use_llm:
         answer = answer_with_groq(
@@ -1282,6 +1425,7 @@ mets-les entre parenthèses en fin de phrase, pas en avant.
         use_llm=use_llm,
         model=model,
         answer=answer,
+        scope_diagnostic=scope_diagnostic,
     )
 
     return {
@@ -1289,6 +1433,7 @@ mets-les entre parenthèses en fin de phrase, pas en avant.
         "answer": answer,
         "chunks": chunks,
         "retrieval_scores": retriever.last_scores,
+        **scope_diagnostic,
     }
 
 
@@ -1321,12 +1466,38 @@ def ask_bm25(
     audience: str = "expert",
     history: Optional[list[dict]] = None,
 ) -> dict:
+    model = "llama-3.3-70b-versatile"
     retriever = SolvencyBM25Retriever()
     chunks = retriever.retrieve(question)
+    scope_diagnostic = evaluate_scope(question, chunks)
 
     print("Sources retrouvées :")
     for index, chunk in enumerate(chunks, start=1):
         print(format_citation(chunk, index))
+
+    if scope_diagnostic["scope_status"] in {"out_of_scope", "uncertain"}:
+        answer = OUT_OF_SCOPE_ANSWER
+        chunks_for_response = []
+        if scope_diagnostic["scope_status"] == "uncertain":
+            answer = UNCERTAIN_SCOPE_ANSWER
+            chunks_for_response = chunks
+        audit_log_query(
+            question=question,
+            chunks=chunks_for_response,
+            retrieval_scores=retriever.last_scores if chunks_for_response else {},
+            mode="bm25",
+            use_llm=False,
+            model=model,
+            answer=answer,
+            scope_diagnostic=scope_diagnostic,
+        )
+        return {
+            "question": question,
+            "answer": answer,
+            "chunks": chunks_for_response,
+            "retrieval_scores": retriever.last_scores if chunks_for_response else {},
+            **scope_diagnostic,
+        }
 
     if audience == "vulgarise":
         extra = """
@@ -1338,7 +1509,6 @@ def ask_bm25(
     else:
         extra = ""
 
-    model = "llama-3.3-70b-versatile"
     if use_llm:
         answer = answer_with_groq(
             question,
@@ -1358,6 +1528,7 @@ def ask_bm25(
         use_llm=use_llm,
         model=model,
         answer=answer,
+        scope_diagnostic=scope_diagnostic,
     )
 
     return {
@@ -1365,6 +1536,7 @@ def ask_bm25(
         "answer": answer,
         "chunks": chunks,
         "retrieval_scores": retriever.last_scores,
+        **scope_diagnostic,
     }
 
 

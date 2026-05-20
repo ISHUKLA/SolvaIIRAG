@@ -328,6 +328,9 @@ def history_to_csv(history: list[dict]) -> str:
             "question": item["question"],
             "answer": item["answer"],
             "n_sources": len(item.get("chunks", [])),
+            "scope_status": item.get("scope_status", "in_scope"),
+            "scope_reason": item.get("scope_reason", ""),
+            "matched_terms": ", ".join(item.get("matched_terms", [])),
         }
         for item in history
     ]
@@ -399,6 +402,28 @@ def render_inline_citations(chunks: list, retrieval_scores: dict | None = None, 
 
 def _pill(label: str, kind: str = "ok") -> str:
     return f'<span class="status-pill {kind}"><span class="dot"></span>{label}</span>'
+
+
+def render_scope_badge(item: dict) -> str:
+    status = item.get("scope_status", "in_scope")
+    reason = item.get("scope_reason", "")
+    matched_terms = item.get("matched_terms", [])
+    if status == "out_of_scope":
+        label = "Hors contexte"
+        kind = "err"
+    elif status == "uncertain":
+        label = "Périmètre incertain"
+        kind = "warn"
+    else:
+        label = "Périmètre Solvabilité II"
+        kind = "ok"
+
+    details = reason
+    if matched_terms:
+        details += " · " + ", ".join(matched_terms[:6])
+    if details:
+        label = f"{label} · {details}"
+    return _pill(_safe_html(label), kind)
 
 
 def _secret_value(name: str, default: str = "") -> str:
@@ -715,9 +740,10 @@ if st.session_state.history:
         )
         retrieval_scores = item.get("retrieval_scores", {})
         citations_html = render_inline_citations(item.get("chunks", []), retrieval_scores)
+        scope_html = render_scope_badge(item)
         st.markdown(
             f'<div class="msg-assistant"><div class="msg-label">Assistant</div>'
-            f'{citations_html}{_safe_html(item["answer"])}</div>',
+            f'{scope_html}<br><br>{citations_html}{_safe_html(item["answer"])}</div>',
             unsafe_allow_html=True,
         )
         feedback_key = len(st.session_state.history) - index
