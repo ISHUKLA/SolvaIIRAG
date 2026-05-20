@@ -142,7 +142,14 @@ def infer_metadata(path: Path) -> dict:
         document_type = "EIOPA material"
     elif "delegated" in name or "2015-35" in name:
         document_type = "Delegated Regulation"
-    elif "directive" in name or "2009-138" in name or "32009l0138" in name or "celex" in name:
+    elif (
+        "directive" in name
+        or "2009-138" in name
+        or "32009l0138" in name
+        or "32025l0002" in name
+        or "202500002" in name
+        or "celex" in name
+    ):
         document_type = "Directive Solvabilité II"
     elif "orsa" in name or "ersa" in name:
         document_type = "Matériel ORSA/ERSA"
@@ -155,7 +162,12 @@ def infer_metadata(path: Path) -> dict:
     else:
         document_type = "Inconnu"
 
-    jurisdiction = "EU" if "celex" in name or "32009l0138" in name else None
+    jurisdiction = "EU" if (
+        "celex" in name
+        or "32009l0138" in name
+        or "32025l0002" in name
+        or "202500002" in name
+    ) else None
     if "bnb" in name or "nbb" in name:
         jurisdiction = "BE"
     for candidate in ["EU", "BE", "FR", "LU", "NL", "DE", "UK"]:
@@ -167,11 +179,18 @@ def infer_metadata(path: Path) -> dict:
     version = version_match.group(1) if version_match else None
 
     if document_type == "Directive Solvabilité II":
-        version = version or "2009/138/CE"
-        temporal_note = (
-            "Directive 2009/138/CE Solvabilité II; cadre applicable depuis le 01/01/2016, "
-            "tel que modifié notamment par Omnibus II et sous réserve des dispositions transitoires."
-        )
+        if "32025l0002" in name or "202500002" in name:
+            version = "Directive (UE) 2025/2"
+            temporal_note = (
+                "Directive (UE) 2025/2 du 27/11/2024, publiée au JOUE le 08/01/2025; "
+                "transposition au plus tard le 29/01/2027 et application à partir du 30/01/2027."
+            )
+        else:
+            version = version or "2009/138/CE"
+            temporal_note = (
+                "Directive 2009/138/CE Solvabilité II; cadre applicable depuis le 01/01/2016, "
+                "tel que modifié notamment par Omnibus II et sous réserve des dispositions transitoires."
+            )
     elif document_type == "Delegated Regulation":
         version = version or "2015/35"
         temporal_note = (
@@ -753,6 +772,37 @@ FRENCH_STOPWORDS = {
 }
 
 QUERY_SYNONYMS = {
+    "revoyure": [
+        "Directive (UE) 2025/2",
+        "directive 2025/2",
+        "32025L0002",
+        "ELI: http://data.europa.eu/eli/dir/2025/2/oj",
+        "30 janvier 2027",
+        "29 janvier 2027",
+        "proportionnalité",
+        "entreprises de petite taille et non complexes",
+        "marge de risque",
+        "volatility adjustment",
+        "ajustement de volatilité",
+        "mesures de garantie de long terme",
+        "risques en matière de durabilité",
+        "risque de liquidité",
+        "surveillance macroprudentielle",
+        "qualité du contrôle",
+    ],
+    "review": [
+        "Directive (EU) 2025/2",
+        "Solvency II review",
+        "Directive 2025/2",
+        "30 January 2027",
+        "proportionality",
+        "small and non-complex undertakings",
+        "risk margin",
+        "volatility adjustment",
+        "sustainability risks",
+        "liquidity risk",
+        "macro-prudential supervision",
+    ],
     "best estimate": ["meilleure estimation"],
     "be": ["best estimate", "meilleure estimation"],
     "scr": ["capital de solvabilité requis"],
@@ -783,6 +833,26 @@ QUERY_SYNONYMS = {
     "sfcr": ["rapport sur la solvabilité et la situation financière"],
 }
 
+SOLVENCY_II_REVIEW_QUERY_TERMS = {
+    "revoyure",
+    "review",
+    "2025/2",
+    "2025-2",
+    "32025l0002",
+    "202500002",
+    "réexamen",
+    "reexamen",
+}
+
+SOLVENCY_II_REVIEW_SOURCE_TERMS = {
+    "32025l0002",
+    "202500002",
+    "oj_l_202500002",
+    "directive (ue) 2025/2",
+    "directive (eu) 2025/2",
+    "eli/dir/2025/2",
+}
+
 
 def expand_query(query: str) -> str:
     expanded = [query]
@@ -791,6 +861,16 @@ def expand_query(query: str) -> str:
         if key in lowered:
             expanded.extend(values)
     return " ".join(expanded)
+
+
+def is_solvency_ii_review_query(query: str) -> bool:
+    lowered = query.lower()
+    return any(term in lowered for term in SOLVENCY_II_REVIEW_QUERY_TERMS)
+
+
+def is_solvency_ii_review_chunk(chunk: Chunk) -> bool:
+    blob = f"{chunk.source_name} {chunk.source_path} {chunk.version or ''} {chunk.text[:500]}".lower()
+    return any(term in blob for term in SOLVENCY_II_REVIEW_SOURCE_TERMS)
 
 
 def tokenize_for_bm25(text: str) -> list[str]:
@@ -861,6 +941,7 @@ class SolvencyRetriever:
         document_type: Optional[str] = None,
         jurisdiction: Optional[str] = None,
     ) -> list[Chunk]:
+        review_query = is_solvency_ii_review_query(query)
         bm25_ids = self.bm25_search(query)
         vector_ids = self.vector_search(query)
 
@@ -874,12 +955,25 @@ class SolvencyRetriever:
         for chunk_id, score in fused.items():
             chunk = self.by_id[chunk_id]
             boost = DOCUMENT_TYPE_BOOSTS.get(chunk.document_type or "Inconnu", 1.0)
+            if review_query and is_solvency_ii_review_chunk(chunk):
+                boost *= 3.0
             boosted[chunk_id] = score * boost
 
         candidates = [
             self.by_id[chunk_id]
             for chunk_id, score in sorted(boosted.items(), key=lambda item: item[1], reverse=True)
         ]
+
+        if review_query:
+            review_candidates = [
+                chunk for chunk in self.chunks
+                if is_solvency_ii_review_chunk(chunk) and chunk.chunk_id not in boosted
+            ]
+            candidates = [
+                *[chunk for chunk in candidates if is_solvency_ii_review_chunk(chunk)],
+                *[chunk for chunk in candidates if not is_solvency_ii_review_chunk(chunk)],
+                *review_candidates[:k],
+            ]
         self.last_raw_scores = dict(boosted)
         self.last_scores = normalize_retrieval_scores(self.last_raw_scores)
 
@@ -893,6 +987,11 @@ class SolvencyRetriever:
             scores = self.reranker.predict(pairs)
             ranked_pairs = sorted(zip(scores, candidates), key=lambda item: item[0], reverse=True)
             candidates = [chunk for score, chunk in ranked_pairs]
+            if review_query:
+                candidates = [
+                    *[chunk for chunk in candidates if is_solvency_ii_review_chunk(chunk)],
+                    *[chunk for chunk in candidates if not is_solvency_ii_review_chunk(chunk)],
+                ]
             self.last_raw_scores = {chunk.chunk_id: float(score) for score, chunk in ranked_pairs}
             self.last_scores = normalize_retrieval_scores(self.last_raw_scores)
 
@@ -952,6 +1051,11 @@ Règles absolues :
 - N'invente aucun chiffre, seuil ou formule absent des sources.
 - Si les sources sont insuffisantes sur un point, dis-le explicitement 
   dans "Limites" plutôt que d'improviser.
+- Si la question porte sur la revoyure, le review, le réexamen ou l'impact
+  2025 de Solvabilité II, réponds d'abord à partir de la Directive (UE) 2025/2
+  et des sources EIOPA liées au review. Ne remplace pas ce sujet par les règles
+  générales de meilleure estimation, QRT ou fonds propres sauf si la question
+  le demande explicitement.
 - La section "En clair" ne cite pas d'articles — elle explique.
 - La section "Réglementation" cite toujours ses sources.
 - Réponds en français.
@@ -1491,4 +1595,3 @@ def load_runtime() -> dict:
 
 def get_callable(name: str):
     return load_runtime()[name]
-
