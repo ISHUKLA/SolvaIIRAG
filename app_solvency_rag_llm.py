@@ -523,16 +523,7 @@ with st.sidebar:
         unsafe_allow_html=True,
     )
 
-    st.markdown('<p class="sidebar-label">Clé API Groq optionnelle</p>', unsafe_allow_html=True)
-    groq_key = st.text_input(
-        "GROQ_API_KEY",
-        label_visibility="collapsed",
-        type="password",
-        value=_secret_value("GROQ_API_KEY"),
-        placeholder="gsk_...",
-        help="Sans clé, l'app répond avec des extraits sourcés du corpus. Avec une clé, elle ajoute une synthèse LLM.",
-        key="groq_key_input",
-    )
+    groq_key = _secret_value("GROQ_API_KEY")
     if groq_key:
         os.environ["GROQ_API_KEY"] = groq_key.strip()
 
