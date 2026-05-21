@@ -10,6 +10,7 @@ import hashlib
 import json
 import os
 import re
+import unicodedata
 from datetime import datetime, timezone
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -853,6 +854,147 @@ SOLVENCY_II_REVIEW_SOURCE_TERMS = {
     "eli/dir/2025/2",
 }
 
+SOLVENCY_SCOPE_TERMS = {
+    "solvabilite ii",
+    "solvency ii",
+    "s2",
+    "assurance",
+    "assureur",
+    "assureurs",
+    "reassurance",
+    "prudentiel",
+    "prudentielle",
+    "actuariel",
+    "actuaire",
+    "provisions techniques",
+    "provision technique",
+    "best estimate",
+    "meilleure estimation",
+    "risk margin",
+    "marge de risque",
+    "fonds propres",
+    "fonds propres eligible",
+    "fonds propres eligibles",
+    "own funds",
+    "basic own funds",
+    "ancillary own funds",
+    "capital de solvabilite requis",
+    "capital requis de solvabilite",
+    "minimum de capital requis",
+    "capital requis",
+    "scr",
+    "mcr",
+    "bscr",
+    "orsa",
+    "ersa",
+    "sfcr",
+    "rsr",
+    "qrt",
+    "gouvernance",
+    "systeme de gouvernance",
+    "fonction actuarielle",
+    "fonction gestion des risques",
+    "fonction conformite",
+    "fonction audit interne",
+    "fit and proper",
+    "personne prudente",
+    "prudent person principle",
+    "formule standard",
+    "standard formula",
+    "modele interne",
+    "module de risque",
+    "modules de risque",
+    "courbe des taux",
+    "technical provisions",
+    "flux de tresorerie",
+    "bilan prudentiel",
+    "valorisation prudentielle",
+    "volatility adjustment",
+    "matching adjustment",
+    "eiopa",
+    "acpr",
+    "bnb",
+    "nbb",
+    "directive",
+    "reglement delegue",
+    "delegated regulation",
+}
+
+SOLVENCY_DOMAIN_TERMS = {
+    "risque de marche",
+    "market risk",
+    "risque de souscription vie",
+    "life underwriting risk",
+    "risque de souscription non-vie",
+    "non-life underwriting risk",
+    "risque de souscription sante",
+    "health underwriting risk",
+    "risque de contrepartie",
+    "risque de defaut de contrepartie",
+    "counterparty default risk",
+    "risque operationnel",
+    "operational risk",
+    "risque incorporel",
+    "intangible asset risk",
+    "risque de taux",
+    "risque de taux d'interet",
+    "interest rate risk",
+    "risque actions",
+    "equity risk",
+    "risque immobilier",
+    "property risk",
+    "risque de spread",
+    "spread risk",
+    "risque de change",
+    "currency risk",
+    "risque de concentration",
+    "market risk concentration",
+    "risque de mortalite",
+    "mortality risk",
+    "risque de longevite",
+    "longevity risk",
+    "risque d'invalidite",
+    "risque de morbidite",
+    "disability-morbidity risk",
+    "risque de rachat",
+    "lapse risk",
+    "risque de depenses",
+    "expense risk",
+    "risque de revision",
+    "revision risk",
+    "risque catastrophe vie",
+    "life catastrophe risk",
+    "risque de prime",
+    "risque de reserve",
+    "risque de primes et reserves",
+    "premium risk",
+    "reserve risk",
+    "risque catastrophe",
+    "catastrophe risk",
+}
+
+SOLVENCY_DOMAIN_CONTEXT_TERMS = {
+    "capital",
+    "capital requis",
+    "scr",
+    "bscr",
+    "formule standard",
+    "standard formula",
+    "module",
+    "modules",
+    "sous-module",
+    "sous-modules",
+    "sub-module",
+    "sub-modules",
+}
+
+OUT_OF_SCOPE_ANSWER = (
+    "Hors contexte : la question ne semble pas relever du périmètre Solvabilité II "
+    "ou du corpus réglementaire chargé. Reformulez avec un sujet Solvabilité II "
+    "(par exemple SCR, MCR, ORSA, provisions techniques, gouvernance, SFCR/RSR, "
+    "Directive, Actes délégués ou EIOPA) pour obtenir une réponse sourcée."
+)
+
 
 def expand_query(query: str) -> str:
     expanded = [query]
@@ -871,6 +1013,24 @@ def is_solvency_ii_review_query(query: str) -> bool:
 def is_solvency_ii_review_chunk(chunk: Chunk) -> bool:
     blob = f"{chunk.source_name} {chunk.source_path} {chunk.version or ''} {chunk.text[:500]}".lower()
     return any(term in blob for term in SOLVENCY_II_REVIEW_SOURCE_TERMS)
+
+
+def normalize_for_scope(text: str) -> str:
+    decomposed = unicodedata.normalize("NFKD", text.lower())
+    return "".join(char for char in decomposed if not unicodedata.combining(char))
+
+
+def is_solvency_scope_question(question: str) -> bool:
+    normalized = normalize_for_scope(question)
+    if is_solvency_ii_review_query(normalized):
+        return True
+    if re.search(r"\b(?:art\.?|article)\s*\d+[a-z]?\b", normalized):
+        return True
+    if any(term in normalized for term in SOLVENCY_SCOPE_TERMS):
+        return True
+    has_domain_term = any(term in normalized for term in SOLVENCY_DOMAIN_TERMS)
+    has_domain_context = any(term in normalized for term in SOLVENCY_DOMAIN_CONTEXT_TERMS)
+    return has_domain_term and has_domain_context
 
 
 def tokenize_for_bm25(text: str) -> list[str]:
@@ -1099,6 +1259,7 @@ def audit_log_query(
     use_llm: bool = True,
     model: str = "llama-3.3-70b-versatile",
     answer: str = "",
+    scope_status: str = "in_scope",
 ) -> None:
     retrieval_scores = retrieval_scores or {}
     event = {
@@ -1106,6 +1267,7 @@ def audit_log_query(
         "user": os.environ.get("USER") or os.environ.get("USERNAME") or "unknown",
         "question": question,
         "mode": mode,
+        "scope_status": scope_status,
         "llm_requested": use_llm,
         "model": model if use_llm else None,
         "answer_preview": normalize_whitespace(answer)[:1000],
@@ -1244,6 +1406,26 @@ def ask(
     audience: str = "expert",
     history: Optional[list[dict]] = None,
 ) -> dict:
+    model = "llama-3.3-70b-versatile"
+    if not is_solvency_scope_question(question):
+        audit_log_query(
+            question=question,
+            chunks=[],
+            retrieval_scores={},
+            mode="hybrid",
+            use_llm=False,
+            model=model,
+            answer=OUT_OF_SCOPE_ANSWER,
+            scope_status="out_of_scope",
+        )
+        return {
+            "question": question,
+            "answer": OUT_OF_SCOPE_ANSWER,
+            "chunks": [],
+            "retrieval_scores": {},
+            "scope_status": "out_of_scope",
+        }
+
     retriever = SolvencyRetriever(use_reranker=use_reranker)
     chunks = retriever.retrieve(question)
 
@@ -1260,8 +1442,6 @@ mets-les entre parenthèses en fin de phrase, pas en avant.
 """.strip()
     else:
         extra = ""
-
-    model = "llama-3.3-70b-versatile"
 
     if use_llm:
         answer = answer_with_groq(
@@ -1282,6 +1462,7 @@ mets-les entre parenthèses en fin de phrase, pas en avant.
         use_llm=use_llm,
         model=model,
         answer=answer,
+        scope_status="in_scope",
     )
 
     return {
@@ -1289,6 +1470,7 @@ mets-les entre parenthèses en fin de phrase, pas en avant.
         "answer": answer,
         "chunks": chunks,
         "retrieval_scores": retriever.last_scores,
+        "scope_status": "in_scope",
     }
 
 
@@ -1321,6 +1503,26 @@ def ask_bm25(
     audience: str = "expert",
     history: Optional[list[dict]] = None,
 ) -> dict:
+    model = "llama-3.3-70b-versatile"
+    if not is_solvency_scope_question(question):
+        audit_log_query(
+            question=question,
+            chunks=[],
+            retrieval_scores={},
+            mode="bm25",
+            use_llm=False,
+            model=model,
+            answer=OUT_OF_SCOPE_ANSWER,
+            scope_status="out_of_scope",
+        )
+        return {
+            "question": question,
+            "answer": OUT_OF_SCOPE_ANSWER,
+            "chunks": [],
+            "retrieval_scores": {},
+            "scope_status": "out_of_scope",
+        }
+
     retriever = SolvencyBM25Retriever()
     chunks = retriever.retrieve(question)
 
@@ -1338,7 +1540,6 @@ def ask_bm25(
     else:
         extra = ""
 
-    model = "llama-3.3-70b-versatile"
     if use_llm:
         answer = answer_with_groq(
             question,
@@ -1358,6 +1559,7 @@ def ask_bm25(
         use_llm=use_llm,
         model=model,
         answer=answer,
+        scope_status="in_scope",
     )
 
     return {
@@ -1365,6 +1567,7 @@ def ask_bm25(
         "answer": answer,
         "chunks": chunks,
         "retrieval_scores": retriever.last_scores,
+        "scope_status": "in_scope",
     }
 
 
