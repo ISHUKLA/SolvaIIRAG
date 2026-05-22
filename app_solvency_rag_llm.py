@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import html
+import importlib
 import logging
 import os
 import sys
@@ -292,10 +293,11 @@ st.markdown(
 # Safe runtime import
 # ---------------------------------------------------------------------------
 try:
-    from solvency_notebook_runtime import load_runtime  # type: ignore
+    import solvency_notebook_runtime as runtime_module  # type: ignore
 
     _RUNTIME_AVAILABLE = True
 except ModuleNotFoundError:
+    runtime_module = None
     _RUNTIME_AVAILABLE = False
 
 # ---------------------------------------------------------------------------
@@ -303,6 +305,7 @@ except ModuleNotFoundError:
 # ---------------------------------------------------------------------------
 MAX_QUESTION_LENGTH = 1_000
 DOCS_DIR = PROJECT_DIR / "Directive"
+RUNTIME_PATH = PROJECT_DIR / "solvency_notebook_runtime.py"
 
 SUGGESTED_QUESTIONS = [
     "Best Estimate - définition ?",
@@ -465,13 +468,23 @@ def validate_groq_connection(groq_key: str, model: str = "llama-3.3-70b-versatil
 # Runtime
 # ---------------------------------------------------------------------------
 @st.cache_resource(show_spinner=False)
-def get_runtime() -> dict:
+def get_runtime(runtime_cache_token: int) -> dict:
     if not _RUNTIME_AVAILABLE:
         raise RuntimeError(
             "Module `solvency_notebook_runtime` introuvable. "
             "Cette app cherche le module dans le dossier du projet."
         )
-    return load_runtime()
+    del runtime_cache_token
+    reloaded_runtime = importlib.reload(runtime_module)
+    reloaded_runtime.load_runtime.cache_clear()
+    return reloaded_runtime.load_runtime()
+
+
+def runtime_cache_token() -> int:
+    try:
+        return RUNTIME_PATH.stat().st_mtime_ns
+    except OSError:
+        return 0
 
 
 def run_query(
@@ -488,7 +501,7 @@ def run_query(
     else:
         os.environ.pop("GROQ_API_KEY", None)
 
-    runtime = get_runtime()
+    runtime = get_runtime(runtime_cache_token())
     if mode == "BM25":
         return runtime["ask_bm25"](question, use_llm=use_llm, audience=audience, history=history)
     return runtime["ask"](
@@ -527,7 +540,7 @@ if not _RUNTIME_AVAILABLE:
 if not st.session_state.runtime_ready:
     with st.spinner("⏳ Chargement de l'index Solvabilité II..."):
         try:
-            get_runtime()
+            get_runtime(runtime_cache_token())
             st.session_state.runtime_ready = True
             st.session_state.runtime_error = None
             logger.info("Runtime loaded automatically.")
