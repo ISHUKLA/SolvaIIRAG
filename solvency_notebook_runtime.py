@@ -990,6 +990,8 @@ SOLVENCY_DOMAIN_TERMS = {
     "revision risk",
     "risque catastrophe vie",
     "life catastrophe risk",
+    "catastrophe naturelle",
+    "natural catastrophe",
     "risque de prime",
     "risque de reserve",
     "risque de primes et reserves",
