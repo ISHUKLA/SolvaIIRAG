@@ -873,20 +873,42 @@ SOLVENCY_SCOPE_TERMS = {
     "risk margin",
     "marge de risque",
     "fonds propres",
+    "fonds propres eligible",
+    "fonds propres eligibles",
+    "own funds",
+    "basic own funds",
+    "ancillary own funds",
     "capital de solvabilite requis",
+    "capital requis de solvabilite",
     "minimum de capital requis",
     "capital requis",
     "scr",
     "mcr",
+    "bscr",
     "orsa",
     "ersa",
     "sfcr",
     "rsr",
     "qrt",
     "gouvernance",
+    "systeme de gouvernance",
+    "fonction actuarielle",
+    "fonction gestion des risques",
+    "fonction conformite",
+    "fonction audit interne",
+    "fit and proper",
+    "personne prudente",
+    "prudent person principle",
     "formule standard",
+    "standard formula",
     "modele interne",
+    "module de risque",
+    "modules de risque",
     "courbe des taux",
+    "technical provisions",
+    "flux de tresorerie",
+    "bilan prudentiel",
+    "valorisation prudentielle",
     "risque climatique",
     "risques climatiques",
     "changement climatique",
@@ -900,6 +922,74 @@ SOLVENCY_SCOPE_TERMS = {
     "nbb",
     "reglement delegue",
     "delegated regulation",
+}
+
+SOLVENCY_DOMAIN_TERMS = {
+    "risque de marche",
+    "market risk",
+    "risque de souscription vie",
+    "life underwriting risk",
+    "risque de souscription non-vie",
+    "non-life underwriting risk",
+    "risque de souscription sante",
+    "health underwriting risk",
+    "risque de contrepartie",
+    "risque de defaut de contrepartie",
+    "counterparty default risk",
+    "risque operationnel",
+    "operational risk",
+    "risque incorporel",
+    "intangible asset risk",
+    "risque de taux",
+    "risque de taux d'interet",
+    "interest rate risk",
+    "risque actions",
+    "equity risk",
+    "risque immobilier",
+    "property risk",
+    "risque de spread",
+    "spread risk",
+    "risque de change",
+    "currency risk",
+    "risque de concentration",
+    "market risk concentration",
+    "risque de mortalite",
+    "mortality risk",
+    "risque de longevite",
+    "longevity risk",
+    "risque d'invalidite",
+    "risque de morbidite",
+    "disability-morbidity risk",
+    "risque de rachat",
+    "lapse risk",
+    "risque de depenses",
+    "expense risk",
+    "risque de revision",
+    "revision risk",
+    "risque catastrophe vie",
+    "life catastrophe risk",
+    "risque de prime",
+    "risque de reserve",
+    "risque de primes et reserves",
+    "premium risk",
+    "reserve risk",
+    "risque catastrophe",
+    "catastrophe risk",
+}
+
+SOLVENCY_DOMAIN_CONTEXT_TERMS = {
+    "capital",
+    "capital requis",
+    "scr",
+    "bscr",
+    "formule standard",
+    "standard formula",
+    "module",
+    "modules",
+    "sous-module",
+    "sous-modules",
+    "sub-module",
+    "sub-modules",
 }
 
 SOLVENCY_SCOPE_WEAK_TERMS = {
@@ -956,6 +1046,8 @@ def normalize_for_scope(text: str) -> str:
 def evaluate_scope(question: str, chunks: Optional[list[Chunk]] = None) -> dict:
     normalized = normalize_for_scope(question)
     matched_terms = sorted(term for term in SOLVENCY_SCOPE_TERMS if term in normalized)
+    domain_terms = sorted(term for term in SOLVENCY_DOMAIN_TERMS if term in normalized)
+    domain_context_terms = sorted(term for term in SOLVENCY_DOMAIN_CONTEXT_TERMS if term in normalized)
     weak_terms = sorted(term for term in SOLVENCY_SCOPE_WEAK_TERMS if term in normalized)
     article_match = bool(re.search(r"\b(?:art\.?|article)\s*\d+[a-z]?\b", normalized))
     review_match = is_solvency_ii_review_query(normalized)
@@ -965,12 +1057,20 @@ def evaluate_scope(question: str, chunks: Optional[list[Chunk]] = None) -> dict:
         blob = normalize_for_scope(
             f"{chunk.source_name} {chunk.document_type or ''} {chunk.version or ''} {chunk.text[:700]}"
         )
-        if any(term in blob for term in SOLVENCY_SCOPE_TERMS) or "solvabilite" in blob or "solvency" in blob:
+        if (
+            any(term in blob for term in SOLVENCY_SCOPE_TERMS)
+            or any(term in blob for term in SOLVENCY_DOMAIN_TERMS)
+            or "solvabilite" in blob
+            or "solvency" in blob
+        ):
             retrieval_evidence.append(chunk.chunk_id)
 
-    if matched_terms or article_match or review_match:
+    if matched_terms or article_match or review_match or (domain_terms and domain_context_terms):
         status = "in_scope"
-        reason = "matched_question_terms"
+        reason = "matched_question_terms" if matched_terms or article_match or review_match else "matched_domain_terms_with_context"
+    elif domain_terms and retrieval_evidence:
+        status = "uncertain"
+        reason = "domain_terms_with_retrieval_evidence"
     elif len(weak_terms) >= 2 and retrieval_evidence:
         status = "uncertain"
         reason = "weak_terms_with_retrieval_evidence"
@@ -982,6 +1082,8 @@ def evaluate_scope(question: str, chunks: Optional[list[Chunk]] = None) -> dict:
         "scope_status": status,
         "scope_reason": reason,
         "matched_terms": matched_terms,
+        "domain_terms": domain_terms,
+        "domain_context_terms": domain_context_terms,
         "weak_terms": weak_terms,
         "article_match": article_match,
         "review_match": review_match,
