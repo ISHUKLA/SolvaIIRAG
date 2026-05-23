@@ -1,0 +1,7 @@
+category,questions,hit_rate,mean_mrr,mean_first_hit_rank,mean_coverage
+Investissements,1,1.0,1.0,1.0,1.0
+Pilier 1 - Capital,3,1.0,1.0,1.0,0.667
+Pilier 2 - Gouvernance,2,1.0,1.0,1.0,0.75
+Pilier 3 - Reporting,1,1.0,1.0,1.0,0.5
+Pilier 1 - Provisions techniques,3,0.667,0.667,1.0,0.667
+Transversal,1,0.0,0.0,,0.0

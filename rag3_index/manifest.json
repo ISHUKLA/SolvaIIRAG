@@ -5,6 +5,16 @@
   "default_chunk_max_chars": 2400,
   "files": [
     {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/.ipynb_checkpoints/ACPR_Modalites_Calcul_Ratios_Prudentiels_SolvabiliteII_2025_FR-checkpoint.pdf",
+      "size": 763917,
+      "mtime_ns": 1779107722319019808
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/30-03-2026 - Report on the Calculation of the UFR for 2027.pdf",
+      "size": 432519,
+      "mtime_ns": 1779204683430511148
+    },
+    {
       "path": "/Users/coralieroland/Desktop/leRAG/Directive/ACPR_Exigences_Qualite_Donnees_SolvabiliteII_2025_FR.pdf",
       "size": 329874,
       "mtime_ns": 1779107721451222746
@@ -20,6 +30,11 @@
       "mtime_ns": 1779107722093415652
     },
     {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/ACPR_Notice_EIRS_ORSA_Solvabilite_II_2023.pdf",
+      "size": 229444,
+      "mtime_ns": 1779203923986983414
+    },
+    {
       "path": "/Users/coralieroland/Desktop/leRAG/Directive/ACPR_Notice_SolvabiliteII_SFCR_RSR_2025_FR.pdf",
       "size": 755081,
       "mtime_ns": 1779107720640209011
@@ -28,6 +43,31 @@
       "path": "/Users/coralieroland/Desktop/leRAG/Directive/ACPR_Notice_SolvabiliteII_Systeme_Gouvernance_2025_FR.pdf",
       "size": 405305,
       "mtime_ns": 1779107722482630053
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/ACPR_Notice_Systeme_Gouvernance_Solvabilite_II.pdf",
+      "size": 405305,
+      "mtime_ns": 1779203924708422002
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/ACPR_Pilier_2_EIRS_ORSA_page.html",
+      "size": 196493,
+      "mtime_ns": 1779203923742797331
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/ACPR_Solvabilite_II_page_generale.html",
+      "size": 209712,
+      "mtime_ns": 1779203924223031548
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/Annex V - Revised Guidelines on reporting for financial stability purposes.pdf",
+      "size": 435640,
+      "mtime_ns": 1779204678268791682
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/Annex VI - Revised Guidelines on the supervision of branches of third-country insurance undertakings.pdf",
+      "size": 1287400,
+      "mtime_ns": 1779204678712288891
     },
     {
       "path": "/Users/coralieroland/Desktop/leRAG/Directive/BNB_NBB_2016_31_governance_clean_EN.pdf",
@@ -45,9 +85,149 @@
       "mtime_ns": 1778777428288958700
     },
     {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/CELEX_32015R0035_FR_TXT.pdf",
+      "size": 9388944,
+      "mtime_ns": 1779183934483562822
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/CELEX_32023R0894_EN_TXT.pdf",
+      "size": 13215558,
+      "mtime_ns": 1779184048161812896
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/CELEX_32023R0894_FR_TXT.pdf",
+      "size": 13750471,
+      "mtime_ns": 1779183195991286511
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/CELEX_32023R0895_FR_TXT.pdf",
+      "size": 2109183,
+      "mtime_ns": 1779184066962521360
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/CELEX_32025L0002_FR_TXT.pdf",
+      "size": 2137821,
+      "mtime_ns": 1779258028678411718
+    },
+    {
       "path": "/Users/coralieroland/Desktop/leRAG/Directive/Commission_Delegated_Regulation_EU_2015_35_EIOPA_rulebook_export.pdf",
       "size": 1030368,
       "mtime_ns": 1778777428276342730
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/Consultation Paper on the shortening of additional Guidelines under Solvency II.pdf",
+      "size": 1644092,
+      "mtime_ns": 1779204686388301541
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/Decision of the Board of Supervisors on collection of information by EIOPA.pdf",
+      "size": 750660,
+      "mtime_ns": 1779204680855063385
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/Decision of the Board of Supervisors on the reporting of the pan-European Personal Pension Product key information document.pdf",
+      "size": 364284,
+      "mtime_ns": 1779204681129325227
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA-26-081 - Final report on supervisory reporting and public disclosure requirements under Solvency II.pdf",
+      "size": 903901,
+      "mtime_ns": 1779204677962338107
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA-BoS-24-411_Governance of taxonomy releases_public.pdf",
+      "size": 529642,
+      "mtime_ns": 1779204681332373063
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA-BoS-25-599 - RFR Technical Documentation.pdf",
+      "size": 2574342,
+      "mtime_ns": 1779204684104980202
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA-BoS-25-664_Final report on revised Guidelines on market and counterparty risk exposures.pdf",
+      "size": 283495,
+      "mtime_ns": 1779204685498668744
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA-BoS-25-664_Guidelines on market and counterparty risk exposures.pdf",
+      "size": 188720,
+      "mtime_ns": 1779204685853512034
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA-BoS-26-102 - Technical specifications on SNCU.pdf",
+      "size": 929823,
+      "mtime_ns": 1779204686087619447
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_DPM_Database_Documentation.pdf",
+      "size": 724904,
+      "mtime_ns": 1779183425577559706
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_DPM_Documentation_2.8.2.pdf",
+      "size": 3794077,
+      "mtime_ns": 1779183414502092513
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_DPM_XBRL_manifest.txt",
+      "size": 4434,
+      "mtime_ns": 1779183428066385786
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_EN_fallback_SNCU_SNCG_publication_page.html",
+      "size": 95551,
+      "mtime_ns": 1779204677663600096
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_EN_fallback_insurance_risk_dashboard_April_2026.html",
+      "size": 11053694,
+      "mtime_ns": 1779204677676718952
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_EN_fallback_shortening_guidelines_consultation_page.html",
+      "size": 94834,
+      "mtime_ns": 1779204677665147422
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_FR_Final_report_supervisory_reporting_public_disclosure_Solvency_II_page.html",
+      "size": 40650,
+      "mtime_ns": 1779204677649857593
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_FR_Insurance_risk_dashboard_page.html",
+      "size": 40650,
+      "mtime_ns": 1779204677661679246
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_FR_Revised_guidelines_market_counterparty_risk_page.html",
+      "size": 97887,
+      "mtime_ns": 1779204677657343273
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_FR_Risk_free_interest_rate_term_structures_page.html",
+      "size": 242481,
+      "mtime_ns": 1779204677654086430
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_FR_SNCU_SNCG_technical_specifications_news_page.html",
+      "size": 40650,
+      "mtime_ns": 1779204677658509020
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_FR_Shortening_13_guidelines_news_page.html",
+      "size": 40650,
+      "mtime_ns": 1779204677659878145
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_FR_Supervisory_reporting_DPM_XBRL_page.html",
+      "size": 154571,
+      "mtime_ns": 1779204677651357064
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_FR_Symmetric_adjustment_equity_capital_charge_page.html",
+      "size": 40650,
+      "mtime_ns": 1779204677656066846
     },
     {
       "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_Final_Report_Market_and_Counterparty_Risk_Exposures_2026_EN.pdf",
@@ -55,14 +235,29 @@
       "mtime_ns": 1779107718631522934
     },
     {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_Final_Report_Solvency_II_manifest.txt",
+      "size": 1363,
+      "mtime_ns": 1779183776464719439
+    },
+    {
       "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_Final_Report_Undertaking_Specific_Parameters_2025_EN.pdf",
       "size": 306026,
       "mtime_ns": 1779107718922297002
     },
     {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_French_sources_manifest.txt",
+      "size": 7136,
+      "mtime_ns": 1779204686389180052
+    },
+    {
       "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_Guidelines_Market_and_Counterparty_Risk_Exposures_2026_EN.pdf",
       "size": 188720,
       "mtime_ns": 1779107849353471746
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_Guidelines_ORSA_page.html",
+      "size": 170536,
+      "mtime_ns": 1779203924866635332
     },
     {
       "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_Guidelines_System_of_Governance_FR.pdf",
@@ -73,6 +268,11 @@
       "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_Guidelines_Undertaking_Specific_Parameters_2025_EN.pdf",
       "size": 224202,
       "mtime_ns": 1779107849652421739
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_Guidelines_on_ORSA_EN.pdf",
+      "size": 151708,
+      "mtime_ns": 1779203924975287829
     },
     {
       "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_Guidelines_on_Own_Risk_and_Solvency_Assessment.pdf",
@@ -88,6 +288,11 @@
       "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_Opinion_2020_Review_Solvency_II_EN.pdf",
       "size": 1908907,
       "mtime_ns": 1779107719213717433
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_QA_1350_ORSA_frequency_submission_deadline.html",
+      "size": 87213,
+      "mtime_ns": 1779203925073721030
     },
     {
       "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_QA_1514_SolvencyII_reporting_retention.html",
@@ -115,9 +320,69 @@
       "mtime_ns": 1778777428298575303
     },
     {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_SolvencyII_Release_Notes_2.8.2_Hotfix.pdf",
+      "size": 334381,
+      "mtime_ns": 1779183411290134554
+    },
+    {
       "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_SolvencyII_overview_and_QA_entrypoint.html",
       "size": 98389,
       "mtime_ns": 1778777428280096641
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_Validations_Syntax.pdf",
+      "size": 209831,
+      "mtime_ns": 1779183415922461808
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_XBRL_Filing_Rules.pdf",
+      "size": 794519,
+      "mtime_ns": 1779204682076072225
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/EIOPA_XBRL_Taxonomy_Documentation_2.8.2.pdf",
+      "size": 647981,
+      "mtime_ns": 1779183423783638888
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/NBB_2025_09_Annexe_ORSA.pdf",
+      "size": 165396,
+      "mtime_ns": 1779203923230800288
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/NBB_2025_09_Circulaire_ORSA.pdf",
+      "size": 5877360,
+      "mtime_ns": 1779203923006159164
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/NBB_2025_09_Circulaire_ORSA_page.html",
+      "size": 116590,
+      "mtime_ns": 1779203922216568424
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/NBB_Circulaires_Communications_Assurance_page.html",
+      "size": 224109,
+      "mtime_ns": 1779203923322420923
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/OJ_L_202500002_FR_TXT.pdf",
+      "size": 2137821,
+      "mtime_ns": 1779183655582213171
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/ORSA_EIRS_documents_manifest.txt",
+      "size": 1612,
+      "mtime_ns": 1779203925074450147
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/Report on quantitative reporting templates.pdf",
+      "size": 1010731,
+      "mtime_ns": 1779182977450269902
+    },
+    {
+      "path": "/Users/coralieroland/Desktop/leRAG/Directive/eiopa_dpm_and_taxonomy_license.pdf",
+      "size": 164359,
+      "mtime_ns": 1779204682484614550
     }
   ]
 }
