@@ -878,6 +878,39 @@ QUERY_SYNONYMS = {
         "own risk and solvency assessment",
     ],
     "sfcr": ["rapport sur la solvabilité et la situation financière"],
+    "hors eee": [
+        "pays tiers",
+        "third country",
+        "third-country insurance undertaking",
+        "entreprise d'assurance ou de réassurance d'un pays tiers",
+        "participation dans une entreprise liée",
+        "solvabilité de groupe",
+        "calcul de la solvabilité du groupe",
+        "article 221",
+        "article 227",
+        "article 228",
+        "article 229",
+        "article 233",
+        "méthode 2 déduction et agrégation",
+        "équivalence pays tiers",
+    ],
+    "pays tiers": [
+        "third country",
+        "third-country insurance undertaking",
+        "entreprise d'assurance ou de réassurance d'un pays tiers",
+        "solvabilité de groupe",
+        "article 227",
+        "article 233",
+        "équivalence pays tiers",
+    ],
+    "entreprises hors eee": [
+        "pays tiers",
+        "third country",
+        "related third-country insurance and reinsurance undertakings",
+        "solvabilité de groupe",
+        "article 227",
+        "article 233",
+    ],
 }
 
 SOLVENCY_II_REVIEW_QUERY_TERMS = {
@@ -898,6 +931,44 @@ SOLVENCY_II_REVIEW_SOURCE_TERMS = {
     "directive (ue) 2025/2",
     "directive (eu) 2025/2",
     "eli/dir/2025/2",
+}
+
+THIRD_COUNTRY_GROUP_QUERY_TERMS = {
+    "hors eee",
+    "hors eea",
+    "pays tiers",
+    "pays tier",
+    "third country",
+    "third-country",
+}
+
+THIRD_COUNTRY_GROUP_CONTEXT_TERMS = {
+    "calcul groupe",
+    "calcul de groupe",
+    "solvabilite groupe",
+    "solvabilite de groupe",
+    "solvabilite du groupe",
+    "groupe",
+    "participation",
+    "participations",
+    "entreprise liee",
+    "entreprises liees",
+}
+
+THIRD_COUNTRY_GROUP_SECTIONS = {
+    "Article 221",
+    "Article 227",
+    "Article 228",
+    "Article 229",
+    "Article 233",
+}
+
+THIRD_COUNTRY_GROUP_SECTION_PRIORITY = {
+    "Article 227": 0,
+    "Article 233": 1,
+    "Article 221": 2,
+    "Article 229": 3,
+    "Article 228": 4,
 }
 
 SOLVENCY_SCOPE_TERMS = {
@@ -1065,6 +1136,37 @@ SOLVENCY_SCOPE_TERMS = {
     "transaction intragroupe",
     "intra-group transactions",
     "intra group transactions",
+    "hors eee",
+    "hors eea",
+    "pays tiers",
+    "third country",
+    "third-country",
+    "third country undertaking",
+    "third-country undertaking",
+    "third country insurance undertaking",
+    "third-country insurance undertaking",
+    "related third-country insurance",
+    "entreprise d'un pays tiers",
+    "entreprise d assurance d un pays tiers",
+    "entreprise de reassurance d un pays tiers",
+    "entreprise d'assurance d'un pays tiers",
+    "entreprise de reassurance d'un pays tiers",
+    "entreprise liee d'assurance",
+    "entreprise liee de reassurance",
+    "participation dans une entreprise liee",
+    "participations dans des entreprises hors eee",
+    "participation dans une entreprise hors eee",
+    "participation hors eee",
+    "participations hors eee",
+    "equivalence pays tiers",
+    "equivalence concernant les entreprises d'assurance et de reassurance de pays tiers",
+    "methode deduction et agregation",
+    "deduction and aggregation",
+    "article 221",
+    "article 227",
+    "article 228",
+    "article 229",
+    "article 233",
 }
 
 SOLVENCY_DOMAIN_TERMS = {
@@ -1188,6 +1290,25 @@ def normalize_for_scope(text: str) -> str:
     return "".join(char for char in decomposed if not unicodedata.combining(char))
 
 
+def is_third_country_group_query(query: str) -> bool:
+    normalized = normalize_for_scope(query)
+    return (
+        any(term in normalized for term in THIRD_COUNTRY_GROUP_QUERY_TERMS)
+        and any(term in normalized for term in THIRD_COUNTRY_GROUP_CONTEXT_TERMS)
+    )
+
+
+def is_third_country_group_chunk(chunk: Chunk) -> bool:
+    return (
+        chunk.section in THIRD_COUNTRY_GROUP_SECTIONS
+        and "CELEX_32009L0138" in chunk.source_name
+    )
+
+
+def third_country_group_section_rank(chunk: Chunk) -> int:
+    return THIRD_COUNTRY_GROUP_SECTION_PRIORITY.get(chunk.section or "", 99)
+
+
 def evaluate_scope(question: str, chunks: Optional[list[Chunk]] = None) -> dict:
     normalized = normalize_for_scope(question)
     matched_terms = sorted(term for term in SOLVENCY_SCOPE_TERMS if term in normalized)
@@ -1305,6 +1426,7 @@ class SolvencyRetriever:
         jurisdiction: Optional[str] = None,
     ) -> list[Chunk]:
         review_query = is_solvency_ii_review_query(query)
+        third_country_group_query = is_third_country_group_query(query)
         bm25_ids = self.bm25_search(query)
         vector_ids = self.vector_search(query)
 
@@ -1320,12 +1442,29 @@ class SolvencyRetriever:
             boost = DOCUMENT_TYPE_BOOSTS.get(chunk.document_type or "Inconnu", 1.0)
             if review_query and is_solvency_ii_review_chunk(chunk):
                 boost *= 3.0
+            if third_country_group_query and is_third_country_group_chunk(chunk):
+                boost *= 3.5
             boosted[chunk_id] = score * boost
 
         candidates = [
             self.by_id[chunk_id]
             for chunk_id, score in sorted(boosted.items(), key=lambda item: item[1], reverse=True)
         ]
+
+        if third_country_group_query:
+            group_candidates = [
+                chunk for chunk in self.chunks
+                if is_third_country_group_chunk(chunk) and chunk.chunk_id not in boosted
+            ]
+            ranked_group_candidates = sorted(
+                [chunk for chunk in candidates if is_third_country_group_chunk(chunk)]
+                + group_candidates,
+                key=third_country_group_section_rank,
+            )
+            candidates = [
+                *ranked_group_candidates[:k],
+                *[chunk for chunk in candidates if not is_third_country_group_chunk(chunk)],
+            ]
 
         if review_query:
             review_candidates = [
@@ -1354,6 +1493,15 @@ class SolvencyRetriever:
                 candidates = [
                     *[chunk for chunk in candidates if is_solvency_ii_review_chunk(chunk)],
                     *[chunk for chunk in candidates if not is_solvency_ii_review_chunk(chunk)],
+                ]
+            if third_country_group_query:
+                ranked_group_candidates = sorted(
+                    [chunk for chunk in candidates if is_third_country_group_chunk(chunk)],
+                    key=third_country_group_section_rank,
+                )
+                candidates = [
+                    *ranked_group_candidates,
+                    *[chunk for chunk in candidates if not is_third_country_group_chunk(chunk)],
                 ]
             self.last_raw_scores = {chunk.chunk_id: float(score) for score, chunk in ranked_pairs}
             self.last_scores = normalize_retrieval_scores(self.last_raw_scores)
@@ -1701,6 +1849,22 @@ class SolvencyBM25Retriever:
             for index, score in ranked
             if score > 0
         ][:k]
+        if is_third_country_group_query(query):
+            seen_ids = {chunk.chunk_id for chunk, score in scored_results}
+            group_results = [
+                (chunk, 0.0)
+                for chunk in self.chunks
+                if is_third_country_group_chunk(chunk) and chunk.chunk_id not in seen_ids
+            ]
+            ranked_group_results = sorted(
+                [(chunk, score) for chunk, score in scored_results if is_third_country_group_chunk(chunk)]
+                + group_results,
+                key=lambda item: third_country_group_section_rank(item[0]),
+            )
+            scored_results = [
+                *ranked_group_results[:k],
+                *[(chunk, score) for chunk, score in scored_results if not is_third_country_group_chunk(chunk)],
+            ][:k]
         self.last_raw_scores = {chunk.chunk_id: score for chunk, score in scored_results}
         self.last_scores = normalize_retrieval_scores(self.last_raw_scores)
         return [chunk for chunk, score in scored_results]
@@ -1869,6 +2033,10 @@ EVAL_QUESTIONS = [
     {
         "question": "Qu'est-ce que la diversification au niveau groupe ?",
         "expected_source_contains": ["diversification", "groupe"],
+    },
+    {
+        "question": "Comment sont traitées les participations dans des entreprises hors EEE dans le calcul groupe ?",
+        "expected_source_contains": ["article 227", "article 233", "groupe"],
     },
 
     # Investissements
