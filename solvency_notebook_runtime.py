@@ -918,6 +918,10 @@ SOLVENCY_SCOPE_TERMS = {
     "tier3",
     "capital de solvabilite requis",
     "capital requis de solvabilite",
+    "solvabilite du groupe",
+    "solvabilite de groupe",
+    "solvabilite des groupes",
+    "calcul de la solvabilite du groupe",
     "minimum de capital requis",
     "capital requis",
     "scr",
@@ -992,6 +996,12 @@ SOLVENCY_SCOPE_TERMS = {
     "nbb",
     "reglement delegue",
     "delegated regulation",
+    "supervision de groupe",
+    "group supervision",
+    "controle de groupe",
+    "groupe prudentiel",
+    "groupe d'assurance",
+    "insurance group",
 }
 
 SOLVENCY_DOMAIN_TERMS = {
@@ -1788,6 +1798,10 @@ EVAL_QUESTIONS = [
     {
         "question": "Comment se calcule le SCR groupe ?",
         "expected_source_contains": ["groupe", "consolidé"],
+    },
+    {
+        "question": "Quelles sont les méthodes de calcul de la solvabilité du groupe ?",
+        "expected_source_contains": ["groupe", "méthode"],
     },
     {
         "question": "Qu'est-ce que la diversification au niveau groupe ?",
