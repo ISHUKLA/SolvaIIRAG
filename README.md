@@ -218,9 +218,100 @@ The app remains usable without a Groq key in retrieval-only mode.
 
 ## Version Francaise
 
-SolvaIIRAG est une application Streamlit qui permet d'interroger un corpus Solvabilite II avec citations. Le corpus est inclus dans le repository, l'index se charge automatiquement, et l'application reste utilisable sans cle API grace au mode retrieval avec extraits sources.
+**SolvaIIRAG est un assistant d'intelligence reglementaire Solvabilite II pret a etre deploye, avec reponses citees, documents sources integres et interface publique Streamlit.**
 
-Le projet met en avant trois competences: comprehension du domaine assurance, conception d'un systeme RAG traçable, et attention portee a l'experience utilisateur d'une application publique.
+SolvaIIRAG est une application de Retrieval-Augmented Generation (RAG) construite pour la reglementation assurance. Elle permet de poser des questions pratiques sur Solvabilite II et de consulter les passages sources qui justifient chaque reponse. L'objectif n'est pas de masquer la complexite reglementaire derriere un chatbot, mais de rendre une documentation dense plus searchable, explicable et auditable.
+
+Le projet est pense comme une application portfolio publique : un visiteur peut ouvrir l'application, choisir une question suggeree et obtenir des resultats sources sans configurer de dossier local, importer de fichiers ou fournir une cle API.
+
+### Resume executif
+
+La documentation Solvabilite II est dispersee entre directives, reglements delegues, publications EIOPA, notices des superviseurs locaux et pages de questions-reponses. Pour les equipes risques, actuariat, conformite et conseil, le probleme est rarement l'absence d'information. Le vrai enjeu consiste a trouver rapidement le paragraphe pertinent, comprendre son contexte et conserver une trace fiable vers la source.
+
+SolvaIIRAG repond a ce besoin avec :
+
+- **Un corpus reglementaire integre** dans le repository, couvrant des sources UE, EIOPA, ACPR et BNB/NBB.
+- **Un chargement automatique de l'index** au demarrage, pour que la demo publique fonctionne immediatement.
+- **Des reponses retrieval-first** qui affichent les passages sources au lieu de s'appuyer uniquement sur une generation non verifiee.
+- **Une synthese LLM optionnelle** via `GROQ_API_KEY`, lorsque la cle est disponible.
+- **Une interface Streamlit publique** pensee pour montrer rapidement la valeur du projet a un recruteur, un Chief Risk Officer ou un reviewer technique.
+
+### Ce que le projet demontre
+
+| Competence | Illustration dans le projet |
+| --- | --- |
+| Compréhension du domaine assurance | Les notions SCR, Best Estimate, Risk Margin, ORSA, gouvernance, SFCR/RSR et orientations EIOPA structurent le parcours de demonstration. |
+| Conception d'un systeme RAG | Les documents sont charges, decoupes, indexes, recherches, classes et restitues avec citations. |
+| Sens produit | L'utilisateur public n'a plus besoin d'indiquer un chemin local ; le corpus et l'index sont integres. |
+| Traçabilite | Les reponses restent reliees aux noms de documents, pages, sections et extraits retrouves. |
+| Deploiement | L'application est compatible Streamlit Community Cloud et fonctionne sans cle API privee. |
+
+### Fonctionnalites principales
+
+- **Corpus Solvabilite II embarque** dans `Directive/`.
+- **Demo publique zero configuration** : pas de chemin local, pas d'upload, pas de cle API obligatoire.
+- **Recherche BM25** adaptee aux termes juridiques, numeros d'articles et definitions reglementaires.
+- **Parcours hybride** avec Chroma et embeddings multilingues lorsque l'index vectoriel est disponible.
+- **Reranking optionnel** avec cross-encoder pour ameliorer l'ordre des sources.
+- **Synthese LLM optionnelle** via Groq ; sans cle, l'application reste utilisable en mode recherche citee.
+- **Experience centree sur les citations** avec documents, pages, extraits et historique exportable.
+
+### Questions exemples
+
+- Que dit l'article 101 sur le SCR ?
+- Comment la Risk Margin est-elle calculee ?
+- Quelles sont les exigences de gouvernance sous Solvabilite II ?
+- Que dit l'article 45 sur l'ORSA ?
+- Comment le Best Estimate est-il defini ?
+
+### Choix techniques
+
+- **BM25 d'abord** car les utilisateurs reglementaires recherchent souvent des formulations exactes, des numeros d'articles et des termes definis.
+- **Embeddings multilingues** car le corpus contient des sources en francais et en anglais.
+- **Runtime Python statique** pour eviter l'execution dynamique d'un notebook en production.
+- **Corpus embarque** pour que l'application soit utilisable par des reviewers externes.
+- **Fallback sans LLM** afin que le produit reste utile comme assistant de recherche citee meme sans API payante.
+
+### Evaluation du retrieval
+
+Le composant de recherche a ete evalue sur **127 questions Solvabilite II** couvrant les piliers 1, 2 et 3, la supervision de groupe, les investissements, la reassurance, les modeles internes, la supervision prudentielle et des sujets transversaux.
+
+Resultats globaux :
+
+| Metrique | Valeur |
+|---|---:|
+| Questions evaluees | 127 |
+| Hit@4 | 0.890 |
+| Mean MRR | 0.829 |
+| Rang moyen du premier hit | 1.19 |
+| Couverture moyenne des termes | 0.682 |
+| Questions echouees | 14 |
+
+Le Hit@4 de **89,0 %** signifie que le contenu attendu apparait dans les quatre premiers passages pour la plupart des questions. Le rang moyen du premier hit, **1,19**, montre que les resultats pertinents sont generalement classes tres haut.
+
+### Lancer localement
+
+```bash
+pip install -r requirements.txt
+streamlit run app_solvency_rag_llm.py
+```
+
+### Deploiement Streamlit Community Cloud
+
+1. Pousser ce repository sur GitHub.
+2. Creer une nouvelle application sur Streamlit Community Cloud.
+3. Selectionner la branche `main` et l'entrypoint `app_solvency_rag_llm.py`.
+4. Optionnel : ajouter `GROQ_API_KEY` dans les secrets Streamlit pour activer la synthese LLM.
+
+L'application reste utilisable sans cle Groq en mode recherche avec citations.
+
+### Limites et prochaines etapes
+
+- L'application est un assistant de recherche reglementaire, pas un avis juridique.
+- La qualite des reponses depend de la completude et de la fraicheur du corpus embarque.
+- Les syntheses LLM doivent etre relues a la lumiere des sources affichees.
+- Certains PDF scannes peuvent necessiter des controles OCR.
+- Les ameliorations futures pourraient inclure un suivi de fraicheur des sources, des metriques d'evaluation plus riches, des controles d'acces pour corpus prives et une observabilite de production.
 
 ## Security and Secrets
 
